@@ -16,10 +16,21 @@ jobs:
           - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
 
     steps:
+      - name: Fix Permissions
+        run: sudo chmod -R u+rwx /home/runner/work/structurizr-pipeline-integration || true
+
+      - name: Clean Structurizr Directory
+        run: |
+          if [ -d "/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr" ]; then
+            sudo rm -rf /home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr
+          fi
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          clean: false
           fetch-depth: 1
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
