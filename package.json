@@ -1,0 +1,9 @@
+{
+  "name": "structurizr-export",
+  "version": "1.0.0",
+  "description": "Export Structurizr diagrams using Puppeteer",
+  "main": "index.js",
+  "dependencies": {
+    "puppeteer": "^21.3.0"
+  }
+}
