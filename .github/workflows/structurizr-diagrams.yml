@@ -33,6 +33,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: Verify Node.js Version
+        run: node --version
+
       - name: Test Structurizr Service Availability
         run: curl -I http://structurizr:8080
 
