@@ -22,18 +22,7 @@
 #             workspace-path: 'docs/workspace.dsl' # This setting will have the action generate images from this DSL. Set the location of your DSL.
 #             output-path: 'docs/diagrams/' # The output folder for generated images.
 
-name: Generate Structurizr Diagrams
-
-on:
-    pull_request:
-        paths:
-        - 'docs/*.dsl'
-
-jobs:
-  generate-diagrams:
-    runs-on: ubuntu-latest
-    
-    - name: Run Structurizr CLI
-      uses: gilbertotcc/structurizr-action@v1
-      with:
-        args: 'export -workspace ./docs -format png'
+- name: Export Structurizr workspace
+  uses: gilbertotcc/structurizr-action@v1
+  with:
+    args: 'export -workspace ./docs -format png'
