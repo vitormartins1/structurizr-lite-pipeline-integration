@@ -18,8 +18,27 @@ const outputDir = './docs/diagrams/';
       fs.mkdirSync(outputDir, { recursive: true });
     }
 
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      headless: "new", // Nova implementação headless
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-popup-blocking" // Permitir popups
+      ],
+    });
+    
     const page = await browser.newPage();
+
+    // Permitir popups para a página
+    await page.setViewport({ width: 1280, height: 720 });
+    await page.evaluateOnNewDocument(() => {
+      window.open = function (url) {
+        const popup = document.createElement('a');
+        popup.href = url;
+        popup.target = '_blank';
+        popup.click();
+      };
+    });
 
     console.log(`Acessando Structurizr Lite em: ${url}`);
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
