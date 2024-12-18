@@ -9,21 +9,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build Custom Docker Image
+      - name: Build Docker Image with Structurizr Lite
         run: |
-          docker build -t structurizr-custom:latest .
+          docker build -t structurizr-lite:latest .
 
-      - name: Run Structurizr Export in Docker
+      - name: Run Structurizr Lite in Docker
         run: |
           docker run -d --rm \
             -v ${{ github.workspace }}/docs:/workspace \
             -p 8080:8080 \
             --name structurizr-lite \
-            structurizr-custom:latest \
-            ./opt/structurizr/structurizr.sh \
-            -workspace /workspace/workspace.dsl \
-            -format png \
-            -output /workspace/diagrams
+            structurizr-lite:latest
+
+      - name: Wait for Structurizr Lite
+        run: |
+          echo "Aguardando Structurizr Lite iniciar na porta 8080..."
+          for i in {1..20}; do
+            curl -s http://localhost:8080 && break || echo "Tentando novamente em 5 segundos..."
+            sleep 5
+          done
+
+      - name: Export Diagrams with Puppeteer
+        run: |
+          cd .github/actions/structurizr-export
+          node export-diagrams.js http://localhost:8080/workspace/diagrams png
 
       - name: List Generated Files
         run: ls -la ./docs/diagrams
