@@ -19,7 +19,7 @@ if (!url || (format !== PNG_FORMAT && format !== SVG_FORMAT)) {
   const page = await browser.newPage();
 
   console.log(`Acessando Structurizr UI em: ${url}`);
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 }); // 60 segundos de timeout
 
   await page.waitForFunction('structurizr.scripting && structurizr.scripting.isDiagramRendered() === true');
 
@@ -39,7 +39,7 @@ if (!url || (format !== PNG_FORMAT && format !== SVG_FORMAT)) {
     }, view);
 
     await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
-    
+
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Gera algo como "2024-12-18T01-23-45"
     const filePath = path.join(outputDir, `${view.key}-${timestamp}.${format}`);
     if (format === PNG_FORMAT) {
