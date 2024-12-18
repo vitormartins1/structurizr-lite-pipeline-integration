@@ -4,7 +4,7 @@
   "description": "Exporta diagramas Structurizr para PNG usando Puppeteer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node export-diagrams.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",

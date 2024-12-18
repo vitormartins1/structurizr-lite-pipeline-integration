@@ -5,34 +5,35 @@ on: [push, pull_request]
 jobs:
   export-diagrams:
     runs-on: ubuntu-latest
+    container:
+      image: node:18-slim
+    services:
+      structurizr:
+        image: structurizr/lite:latest
+        ports:
+          - 8080:8080
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build Docker Image with Structurizr Lite
+      - name: Install Puppeteer Dependencies
         run: |
-          docker build -t structurizr-lite:latest .
-
-      - name: Run Structurizr Lite in Docker
-        run: |
-          docker run -d --rm \
-            -v ${{ github.workspace }}/docs:/workspace \
-            -p 8080:8080 \
-            --name structurizr-lite \
-            structurizr-lite:latest
+          cd .github/actions/structurizr-export
+          npm install
 
       - name: Wait for Structurizr Lite
         run: |
           echo "Aguardando Structurizr Lite iniciar na porta 8080..."
           for i in {1..20}; do
-            curl -s http://localhost:8080 && break || echo "Tentando novamente em 5 segundos..."
+            curl -s http://structurizr:8080 && break || echo "Tentando novamente em 5 segundos..."
             sleep 5
           done
 
       - name: Export Diagrams with Puppeteer
         run: |
           cd .github/actions/structurizr-export
-          node export-diagrams.js http://localhost:8080/workspace/diagrams png
+          node export-diagrams.js http://structurizr:8080/workspace/diagrams png
 
       - name: List Generated Files
         run: ls -la ./docs/diagrams
