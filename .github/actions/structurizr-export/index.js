@@ -1,38 +1,60 @@
-const core = require('@actions/core');
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 const path = require('path');
 
+const PNG_FORMAT = 'png';
+const SVG_FORMAT = 'svg';
+
+const url = process.argv[2]; // Ex.: http://localhost:8080
+const format = process.argv[3]; // Ex.: png ou svg
+const outputDir = './docs'; // Diretório onde os diagramas serão salvos
+
+if (!url || (format !== PNG_FORMAT && format !== SVG_FORMAT)) {
+  console.log("Usage: node export-diagrams.js <structurizrUrl> <png|svg>");
+  process.exit(1);
+}
+
 (async () => {
-  try {
-    const structurizrUrl = core.getInput('structurizr_url'); // URL do workspace
-    const outputPath = core.getInput('output_path'); // Pasta de saída para os PNGs
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
 
-    console.log(`Exportando diagramas de: ${structurizrUrl}`);
+  console.log(`Acessando Structurizr UI em: ${url}`);
+  await page.goto(url, { waitUntil: 'networkidle2' });
 
-    // Lança o navegador headless
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+  await page.waitForFunction('structurizr.scripting && structurizr.scripting.isDiagramRendered() === true');
 
-    // Acessa o Structurizr UI
-    await page.goto(structurizrUrl, { waitUntil: 'networkidle2' });
+  const views = await page.evaluate(() => structurizr.scripting.getViews());
+  if (!views.length) {
+    console.log("Nenhum diagrama encontrado.");
+    await browser.close();
+    process.exit(0);
+  }
 
-    // Espera pelo botão de exportação
-    await page.waitForSelector('[data-action="export"]');
-    await page.click('[data-action="export"]');
+  console.log(`Exportando ${views.length} diagramas...`);
+  for (const view of views) {
+    console.log(`Processando: ${view.key}`);
 
-    // Aguarda renderização e salva diagramas como PNG
-    await page.waitForTimeout(5000);
-    const diagramHandles = await page.$$('.structurizr-diagram');
-    for (let i = 0; i < diagramHandles.length; i++) {
-      const diagram = diagramHandles[i];
-      const filePath = path.join(outputPath, `diagram-${i + 1}.png`);
-      console.log(`Exportando: ${filePath}`);
-      await diagram.screenshot({ path: filePath });
+    await page.evaluate((view) => {
+      structurizr.scripting.changeView(view.key);
+    }, view);
+
+    await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
+
+    const filePath = path.join(outputDir, `${view.key}.${format}`);
+    if (format === PNG_FORMAT) {
+      const content = await page.evaluate(() =>
+        structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true, crop: false })
+      );
+      fs.writeFileSync(filePath, content.replace(/^data:image\/png;base64,/, ""), "base64");
+    } else if (format === SVG_FORMAT) {
+      const content = await page.evaluate(() =>
+        structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true })
+      );
+      fs.writeFileSync(filePath, content);
     }
 
-    await browser.close();
-    console.log('Exportação concluída com sucesso.');
-  } catch (error) {
-    core.setFailed(`Erro ao exportar diagramas: ${error.message}`);
+    console.log(`Salvo: ${filePath}`);
   }
+
+  await browser.close();
 })();

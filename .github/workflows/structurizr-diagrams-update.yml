@@ -1,9 +1,9 @@
-name: Structurizr Export Workspace Views Workflow
+name: Structurizr Export Workflow
 
 on: [push, pull_request]
 
 jobs:
-  generate-diagrams:
+  export-diagrams:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -14,22 +14,30 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies for Custom Action
+      - name: Install Dependencies
         run: |
           cd .github/actions/structurizr-export
-          npm install
+          npm install puppeteer
 
-      - name: Run Structurizr Export Action
-        uses: ./.github/actions/structurizr-export
-        with:
-          structurizr_url: './docs'
-          output_path: './docs/diagrams'
+      - name: Run Structurizr Lite in Docker
+        run: |
+          docker run -d --rm \
+            -v ${{ github.workspace }}/docs:/workspace \
+            -p 8080:8080 \
+            --name structurizr-lite \
+            structurizr-lite:latest \
+            -workspace /workspace/workspace.dsl
+
+      - name: Export Diagrams with Puppeteer
+        run: |
+          cd .github/actions/structurizr-export
+          node export-diagrams.js http://localhost:8080 png
 
       - name: List Generated Files
-        run: ls -la ./docs/diagrams
+        run: ls -la ./docs
 
       - name: Upload Diagrams
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: ./docs/diagrams/
+          path: ./docs/
