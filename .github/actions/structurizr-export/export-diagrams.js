@@ -31,6 +31,23 @@ const http = require('http');
 //   process.exit(1);
 // }
 
+async function waitForStructurizrLite() {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    try {
+      console.log(`Tentativa ${attempt + 1}: Verificando disponibilidade do Structurizr Lite...`);
+      await page.goto('http://structurizr:8080', { waitUntil: 'domcontentloaded', timeout: 5000 });
+      console.log('Structurizr Lite está disponível.');
+      return true;
+    } catch (error) {
+      console.log(`Structurizr Lite ainda não está disponível. Tentando novamente em 3 segundos...`);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+  }
+  throw new Error('Structurizr Lite não está acessível após múltiplas tentativas.');
+}
+
+await waitForStructurizrLite();
+
 (async () => {
   console.log('Iniciando exportação de diagramas...');
   try {
@@ -62,13 +79,25 @@ const http = require('http');
       };
     });
 
+
+
     console.log(`Acessando Structurizr Lite em: ${url}`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     console.log('Aguardando o carregamento do Structurizr...');
-    await page.waitForFunction(() => window.structurizr && window.structurizr.scripting && typeof window.structurizr.scripting.getViews === 'function', {
-        timeout: 60000,
-    });
+    try {
+      await page.waitForFunction(() => {
+        return window.structurizr && window.structurizr.scripting && typeof window.structurizr.scripting.getViews === 'function';
+      }, { timeout: 120000 }); // Timeout aumentado para 2 minutos
+      console.log('Structurizr carregado com sucesso.');
+    } catch (error) {
+      console.error('Timeout ao aguardar o carregamento do Structurizr.');
+      const isStructurizrLoaded = await page.evaluate(() => {
+        return !!(window.structurizr && window.structurizr.scripting);
+      });
+      console.log('Structurizr estado atual:', isStructurizrLoaded ? 'Carregado' : 'Não carregado');
+      throw error;
+    }
 
     console.log('Structurizr carregado com sucesso.');
     const views = await page.evaluate(() => {
