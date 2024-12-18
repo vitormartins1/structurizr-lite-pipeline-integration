@@ -32,20 +32,13 @@ jobs:
             libcairo2 \
             libasound2 \
             libglib2.0-0 \
-            libxi6
+            libxi6 \
+            libxkbcommon0
 
       - name: Install Puppeteer Dependencies
         run: |
           cd .github/actions/structurizr-export
           npm install
-
-      - name: Wait for Structurizr Lite
-        run: |
-          echo "Aguardando Structurizr Lite iniciar na porta 8080..."
-          for i in {1..20}; do
-            curl -s http://structurizr:8080 && break || echo "Tentando novamente em 5 segundos..."
-            sleep 5
-          done
 
       - name: Export Diagrams with Puppeteer
         run: |
