@@ -1,16 +1,18 @@
 const core = require('@actions/core');
 const exec = require('exec-sh').promise;
+const path = require('path');
 
 (async () => {
   try {
     // Inputs da Action
-    const workspacePath = core.getInput('workspace_path');
-    const outputPath = core.getInput('output_path');
+    const workspacePath = core.getInput('workspace_path'); // './docs'
+    const outputPath = core.getInput('output_path'); // './docs/diagrams'
 
     console.log(`Procurando arquivos .dsl modificados em: ${workspacePath}`);
 
     // Checar alterações no repositório
-    const gitDiffCommand = `git diff --name-only HEAD~1 | grep '${workspacePath}.*\\.dsl$' || true`;
+    const gitDiffCommand = `git diff --name-only HEAD~1 | grep '^${workspacePath}.*\\.dsl$' || true`;
+    console.log(`Executando comando: ${gitDiffCommand}`);
     const modifiedFiles = (await exec(gitDiffCommand, true)).stdout.trim().split('\n');
 
     if (modifiedFiles.length === 0 || modifiedFiles[0] === '') {
