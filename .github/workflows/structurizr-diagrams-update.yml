@@ -14,14 +14,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Puppeteer
+      - name: Install Dependencies for Custom Action
         run: |
-          npm install puppeteer
+          cd .github/actions/structurizr-export
+          npm install
 
       - name: Run Structurizr Export Action
         uses: ./.github/actions/structurizr-export
         with:
-          structurizr_url: 'https://structurizr.com/share/12345' # Substitua pelo URL do seu workspace
+          structurizr_url: './docs'
           output_path: './docs/diagrams'
 
       - name: List Generated Files
