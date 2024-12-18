@@ -19,8 +19,11 @@ jobs:
       - name: Fix Permissions
         run: sudo chmod -R u+rwx /home/runner/work/structurizr-pipeline-integration || true
 
-      - name: Clean Structurizr Directory
+      - name: Clean Workspace Files
         run: |
+          if [ -f "/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/workspace.dsl" ]; then
+            sudo rm -f /home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/workspace.dsl
+          fi
           if [ -d "/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr" ]; then
             sudo rm -rf /home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr
           fi
