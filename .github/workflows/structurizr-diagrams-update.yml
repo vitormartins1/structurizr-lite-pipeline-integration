@@ -1,9 +1,6 @@
 name: Structurizr Export Workspace Views Workflow
 
 on:
-  pull_request:
-    paths:
-      - '.docs/*.dsl'
   push:
     paths:
       - '.docs/*.dsl'
