@@ -16,10 +16,9 @@ jobs:
           - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
 
     steps:
+      - name: Clean Structurizr Directory
+        run: sudo rm -rf ./docs/.structurizr || true
 
-      - name: Fix Permissions
-        run: sudo chmod -R u+rwx ./docs/.structurizr || true
-        
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
