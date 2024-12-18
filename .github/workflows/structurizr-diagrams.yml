@@ -16,8 +16,8 @@ jobs:
           - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
 
     steps:
-      # - name: Adjust Permissions
-      #   run: sudo chmod -R u+rwx ./docs || true
+      - name: Adjust Permissions
+        run: sudo chmod -R u+rwx ./docs || true
 
       # - name: Force Remove Problematic File
       #   run: sudo rm -f ./docs/workspace.dsl || true
