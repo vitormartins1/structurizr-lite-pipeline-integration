@@ -1,7 +1,7 @@
 {
   "name": "structurizr-export",
   "version": "1.0.0",
-  "description": "Export Structurizr diagrams using Puppeteer",
+  "description": "Exporta diagramas Structurizr para PNG usando Puppeteer",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

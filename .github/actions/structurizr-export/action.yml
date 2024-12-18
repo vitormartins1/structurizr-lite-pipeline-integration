@@ -3,10 +3,10 @@ description: Exporta diagramas Structurizr para PNG usando Puppeteer
 
 inputs:
   structurizr_url:
-    description: 'URL do workspace no Structurizr'
+    description: 'URL do workspace no Structurizr (ex.: http://localhost:8080)'
     required: true
   output_path:
-    description: 'Pasta de saída para os PNGs gerados'
+    description: 'Pasta de saída para os PNGs gerados (ex.: ./docs/diagrams)'
     required: true
 
 runs:
