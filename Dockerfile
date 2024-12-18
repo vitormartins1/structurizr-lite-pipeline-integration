@@ -8,10 +8,12 @@ WORKDIR /opt/structurizr
 ADD https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip .
 RUN unzip structurizr-cli.zip && rm structurizr-cli.zip
 
-# Instalar Puppeteer
+# Configurar dependências do Node.js
 WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+COPY package.json ./
+# Se o package-lock.json não existir, remova-o da linha abaixo:
+COPY package-lock.json ./
 RUN npm install puppeteer
 
-# Configurar o diretório de trabalho
+# Configurar o diretório de trabalho final
 WORKDIR /workspace
