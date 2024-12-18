@@ -4,7 +4,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2024-12-18T00:47:42Z",
+  "lastModifiedDate" : "2024-12-18T01:04:41Z",
   "model" : {
     "deploymentNodes" : [ {
       "children" : [ {
@@ -17,7 +17,7 @@
               "id" : "12",
               "instanceId" : 1,
               "properties" : {
-                "structurizr.dsl.identifier" : "1de87c41-3dc9-4752-b507-9d9b9979d1eb"
+                "structurizr.dsl.identifier" : "75eed952-5ff2-4b65-b264-d695345c0c6f"
               },
               "relationships" : [ {
                 "description" : "Envia mensagens filtradas para",
@@ -33,7 +33,7 @@
             "instances" : "1",
             "name" : "Amazon SNS",
             "properties" : {
-              "structurizr.dsl.identifier" : "9bd955ae-bde7-4743-93d4-5b3c61273d72"
+              "structurizr.dsl.identifier" : "2eb92126-3ac1-45d7-b2cc-6605f87d0e7f"
             },
             "tags" : "Element,Deployment Node,Amazon Web Services - Simple Notification Service SNS"
           }, {
@@ -44,7 +44,7 @@
               "id" : "14",
               "instanceId" : 1,
               "properties" : {
-                "structurizr.dsl.identifier" : "1fc0fefd-c254-4ef3-b34f-81c8a35f223f"
+                "structurizr.dsl.identifier" : "31e39e90-7b39-40ad-9cee-7896722d546f"
               },
               "tags" : "Container Instance"
             } ],
@@ -55,14 +55,14 @@
               "id" : "16",
               "name" : "MESSAGE-QUEUE-DLQ",
               "properties" : {
-                "structurizr.dsl.identifier" : "f525fb2f-a353-44cf-8d7d-cefa1873c158"
+                "structurizr.dsl.identifier" : "919791ac-0b2d-48e4-a7b7-9064b019f4b7"
               },
               "tags" : "Element,Infrastructure Node,Queue,Amazon Web Services - Simple Queue Service Queue,Amazon Web Services - Simple Queue Service SQS Queue"
             } ],
             "instances" : "1",
             "name" : "Amazon SQS",
             "properties" : {
-              "structurizr.dsl.identifier" : "3a1e78e0-fc5b-4a0d-aaad-e005c257866c"
+              "structurizr.dsl.identifier" : "63122932-e68f-40e2-914d-28e645157181"
             },
             "tags" : "Element,Deployment Node,Amazon Web Services - Simple Queue Service SQS"
           }, {
@@ -73,7 +73,7 @@
               "id" : "18",
               "name" : "Alarmes SQS Queue",
               "properties" : {
-                "structurizr.dsl.identifier" : "858110a8-c232-4233-b442-e70d067ca4f3"
+                "structurizr.dsl.identifier" : "a034d383-a6cf-409e-9ef1-ebe246ff3eca"
               },
               "tags" : "Element,Infrastructure Node,Amazon Web Services - CloudWatch Alarm"
             }, {
@@ -81,14 +81,14 @@
               "id" : "19",
               "name" : "Alarmes SNS Topic",
               "properties" : {
-                "structurizr.dsl.identifier" : "90b98e55-c8d3-4442-8eb0-8882916e3c08"
+                "structurizr.dsl.identifier" : "eb116521-cbc7-4f07-93a0-f3ec3197d6df"
               },
               "tags" : "Element,Infrastructure Node,Amazon Web Services - CloudWatch Alarm"
             } ],
             "instances" : "5",
             "name" : "CloudWatch",
             "properties" : {
-              "structurizr.dsl.identifier" : "b12ed4cd-2551-4cd0-9eb9-a6da253b6dc4"
+              "structurizr.dsl.identifier" : "4b0a4171-2926-4a36-9baf-d3a3d8ab5103"
             },
             "tags" : "Element,Deployment Node,Amazon Web Services - CloudWatch"
           } ],
@@ -99,14 +99,14 @@
             "id" : "10",
             "name" : "KMS Parameter",
             "properties" : {
-              "structurizr.dsl.identifier" : "8b852307-38fd-4144-93c8-0bbc16ce69e5"
+              "structurizr.dsl.identifier" : "809ca743-35f7-4779-abe5-de313dd3300c"
             },
             "tags" : "Element,Infrastructure Node,Amazon Web Services - Key Management Service"
           } ],
           "instances" : "1",
           "name" : "sa-east-1",
           "properties" : {
-            "structurizr.dsl.identifier" : "0b80ec85-7479-4375-9dbc-9b5405486703"
+            "structurizr.dsl.identifier" : "1afa4474-7840-46af-b36e-475357cd58e3"
           },
           "tags" : "Element,Deployment Node,Amazon Web Services - Region"
         } ],
@@ -115,7 +115,7 @@
         "instances" : "1",
         "name" : "Enterprise",
         "properties" : {
-          "structurizr.dsl.identifier" : "ca53f44a-a1de-493a-ae96-a595f699e00e"
+          "structurizr.dsl.identifier" : "dff60c00-806f-4408-85e2-8c021fe5b8b5"
         },
         "tags" : "Element,Deployment Node,Amazon Web Services - Server contents,#\"Amazon,Web,Services,-,WorkMail\""
       } ],
@@ -124,7 +124,7 @@
       "instances" : "1",
       "name" : "Amazon Web Services",
       "properties" : {
-        "structurizr.dsl.identifier" : "2b3f5b03-694a-4ee2-8f50-7db0ded735f2"
+        "structurizr.dsl.identifier" : "f9df16bf-b433-4e93-b9ac-380bec12f0fa"
       },
       "tags" : "Element,Deployment Node,Amazon Web Services - Cloud"
     } ],
@@ -191,7 +191,7 @@
   "views" : {
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "deploy-dev",
+      "lastSavedView" : "sns-com-sqs",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
@@ -268,15 +268,15 @@
       },
       "elements" : [ {
         "id" : "2",
-        "x" : 219,
+        "x" : 220,
         "y" : 819
       }, {
         "id" : "3",
-        "x" : 219,
+        "x" : 220,
         "y" : 1419
       }, {
         "id" : "4",
-        "x" : 219,
+        "x" : 220,
         "y" : 219
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
@@ -292,7 +292,7 @@
     "deploymentViews" : [ {
       "dimensions" : {
         "height" : 1871,
-        "width" : 3076
+        "width" : 2401
       },
       "elements" : [ {
         "id" : "7",
@@ -308,40 +308,40 @@
         "y" : 175
       }, {
         "id" : "10",
-        "x" : 1029,
-        "y" : 324
+        "x" : 355,
+        "y" : 325
       }, {
         "id" : "11",
         "x" : 175,
         "y" : 175
       }, {
         "id" : "12",
-        "x" : 1704,
-        "y" : 279
+        "x" : 1030,
+        "y" : 280
       }, {
         "id" : "13",
         "x" : 175,
         "y" : 175
       }, {
         "id" : "14",
-        "x" : 1704,
-        "y" : 1005
+        "x" : 1030,
+        "y" : 1006
       }, {
         "id" : "16",
-        "x" : 954,
-        "y" : 1005
+        "x" : 280,
+        "y" : 1006
       }, {
         "id" : "17",
         "x" : 175,
         "y" : 175
       }, {
         "id" : "18",
-        "x" : 2345,
-        "y" : 1006
+        "x" : 1671,
+        "y" : 1007
       }, {
         "id" : "19",
-        "x" : 2345,
-        "y" : 324
+        "x" : 1671,
+        "y" : 325
       } ],
       "environment" : "Live",
       "key" : "deploy-dev",
