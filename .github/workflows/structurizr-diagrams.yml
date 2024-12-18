@@ -28,7 +28,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('.github/actions/structurizr-export/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-            
+      
+      - name: List Cached Node Modules
+        run: ls -la .github/actions/structurizr-export/node_modules
+
       - name: Install system dependencies
         run: |
           apt-get update

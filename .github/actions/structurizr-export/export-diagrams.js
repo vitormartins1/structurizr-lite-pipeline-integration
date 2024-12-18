@@ -63,8 +63,14 @@ const http = require('http');
     });
 
     console.log(`Acessando Structurizr Lite em: ${url}`);
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
+    console.log('Aguardando o carregamento do Structurizr...');
+    await page.waitForFunction(() => window.structurizr && window.structurizr.scripting && typeof window.structurizr.scripting.getViews === 'function', {
+        timeout: 60000,
+    });
+
+    console.log('Structurizr carregado com sucesso.');
     const views = await page.evaluate(() => {
       return structurizr.scripting.getViews();
     });
