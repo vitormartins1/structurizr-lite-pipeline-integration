@@ -33,7 +33,8 @@ jobs:
             libasound2 \
             libglib2.0-0 \
             libxi6 \
-            libxkbcommon0
+            libxkbcommon0 \
+            libxdamage1
 
       - name: Install Puppeteer Dependencies
         run: |
