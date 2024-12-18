@@ -46,7 +46,7 @@ async function waitForStructurizrLite() {
   throw new Error('Structurizr Lite não está acessível após múltiplas tentativas.');
 }
 
-await waitForStructurizrLite();
+// await waitForStructurizrLite();
 
 (async () => {
   console.log('Iniciando exportação de diagramas...');
@@ -79,7 +79,7 @@ await waitForStructurizrLite();
       };
     });
 
-
+    await waitForStructurizrLite();
 
     console.log(`Acessando Structurizr Lite em: ${url}`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
