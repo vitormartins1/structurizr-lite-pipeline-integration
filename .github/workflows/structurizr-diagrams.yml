@@ -13,9 +13,14 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ${{ github.workspace }}/docs:/usr/local/structurizr
+          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
 
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
