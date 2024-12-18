@@ -47,7 +47,7 @@ jobs:
           node --version
 
       - name: Test Structurizr Service Availability
-        run: curl -I http://structurizr:8080
+        run: curl -I http://localhost:8080
 
       - name: Verificar estado do container Structurizr
         run: |
