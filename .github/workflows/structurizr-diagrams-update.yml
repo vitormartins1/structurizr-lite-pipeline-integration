@@ -18,8 +18,7 @@ jobs:
           mkdir -p structurizr-cli
           unzip -o structurizr-cli.zip -d structurizr-cli
           
-          # Corrige o caminho do script e aplica permissões
-          mv structurizr-cli/structurizr.sh structurizr-cli/structurizr.sh
+          # Aplica permissões
           chmod +x structurizr-cli/structurizr.sh
           
           # Verificação
