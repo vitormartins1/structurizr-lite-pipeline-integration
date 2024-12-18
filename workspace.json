@@ -1,0 +1,354 @@
+{
+  "configuration" : { },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2024-12-18T00:47:42Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "children" : [ {
+          "children" : [ {
+            "containerInstances" : [ {
+              "containerId" : "2",
+              "deploymentGroups" : [ "Default" ],
+              "environment" : "Live",
+              "id" : "12",
+              "instanceId" : 1,
+              "properties" : {
+                "structurizr.dsl.identifier" : "1de87c41-3dc9-4752-b507-9d9b9979d1eb"
+              },
+              "relationships" : [ {
+                "description" : "Envia mensagens filtradas para",
+                "destinationId" : "14",
+                "id" : "15",
+                "linkedRelationshipId" : "6",
+                "sourceId" : "12"
+              } ],
+              "tags" : "Container Instance"
+            } ],
+            "environment" : "Live",
+            "id" : "11",
+            "instances" : "1",
+            "name" : "Amazon SNS",
+            "properties" : {
+              "structurizr.dsl.identifier" : "9bd955ae-bde7-4743-93d4-5b3c61273d72"
+            },
+            "tags" : "Element,Deployment Node,Amazon Web Services - Simple Notification Service SNS"
+          }, {
+            "containerInstances" : [ {
+              "containerId" : "3",
+              "deploymentGroups" : [ "Default" ],
+              "environment" : "Live",
+              "id" : "14",
+              "instanceId" : 1,
+              "properties" : {
+                "structurizr.dsl.identifier" : "1fc0fefd-c254-4ef3-b34f-81c8a35f223f"
+              },
+              "tags" : "Container Instance"
+            } ],
+            "environment" : "Live",
+            "id" : "13",
+            "infrastructureNodes" : [ {
+              "environment" : "Live",
+              "id" : "16",
+              "name" : "MESSAGE-QUEUE-DLQ",
+              "properties" : {
+                "structurizr.dsl.identifier" : "f525fb2f-a353-44cf-8d7d-cefa1873c158"
+              },
+              "tags" : "Element,Infrastructure Node,Queue,Amazon Web Services - Simple Queue Service Queue,Amazon Web Services - Simple Queue Service SQS Queue"
+            } ],
+            "instances" : "1",
+            "name" : "Amazon SQS",
+            "properties" : {
+              "structurizr.dsl.identifier" : "3a1e78e0-fc5b-4a0d-aaad-e005c257866c"
+            },
+            "tags" : "Element,Deployment Node,Amazon Web Services - Simple Queue Service SQS"
+          }, {
+            "environment" : "Live",
+            "id" : "17",
+            "infrastructureNodes" : [ {
+              "environment" : "Live",
+              "id" : "18",
+              "name" : "Alarmes SQS Queue",
+              "properties" : {
+                "structurizr.dsl.identifier" : "858110a8-c232-4233-b442-e70d067ca4f3"
+              },
+              "tags" : "Element,Infrastructure Node,Amazon Web Services - CloudWatch Alarm"
+            }, {
+              "environment" : "Live",
+              "id" : "19",
+              "name" : "Alarmes SNS Topic",
+              "properties" : {
+                "structurizr.dsl.identifier" : "90b98e55-c8d3-4442-8eb0-8882916e3c08"
+              },
+              "tags" : "Element,Infrastructure Node,Amazon Web Services - CloudWatch Alarm"
+            } ],
+            "instances" : "5",
+            "name" : "CloudWatch",
+            "properties" : {
+              "structurizr.dsl.identifier" : "b12ed4cd-2551-4cd0-9eb9-a6da253b6dc4"
+            },
+            "tags" : "Element,Deployment Node,Amazon Web Services - CloudWatch"
+          } ],
+          "environment" : "Live",
+          "id" : "9",
+          "infrastructureNodes" : [ {
+            "environment" : "Live",
+            "id" : "10",
+            "name" : "KMS Parameter",
+            "properties" : {
+              "structurizr.dsl.identifier" : "8b852307-38fd-4144-93c8-0bbc16ce69e5"
+            },
+            "tags" : "Element,Infrastructure Node,Amazon Web Services - Key Management Service"
+          } ],
+          "instances" : "1",
+          "name" : "sa-east-1",
+          "properties" : {
+            "structurizr.dsl.identifier" : "0b80ec85-7479-4375-9dbc-9b5405486703"
+          },
+          "tags" : "Element,Deployment Node,Amazon Web Services - Region"
+        } ],
+        "environment" : "Live",
+        "id" : "8",
+        "instances" : "1",
+        "name" : "Enterprise",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ca53f44a-a1de-493a-ae96-a595f699e00e"
+        },
+        "tags" : "Element,Deployment Node,Amazon Web Services - Server contents,#\"Amazon,Web,Services,-,WorkMail\""
+      } ],
+      "environment" : "Live",
+      "id" : "7",
+      "instances" : "1",
+      "name" : "Amazon Web Services",
+      "properties" : {
+        "structurizr.dsl.identifier" : "2b3f5b03-694a-4ee2-8f50-7db0ded735f2"
+      },
+      "tags" : "Element,Deployment Node,Amazon Web Services - Cloud"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Tópico SNS usado para distribuir mensagens.",
+        "documentation" : { },
+        "id" : "2",
+        "name" : "MESSAGE-TOPIC",
+        "properties" : {
+          "structurizr.dsl.identifier" : "snstopic"
+        },
+        "relationships" : [ {
+          "description" : "Envia mensagens filtradas para",
+          "destinationId" : "3",
+          "id" : "6",
+          "sourceId" : "2",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Amazon Web Services - Simple Notification Service Topic,Topic,Amazon Web Services - Simple Notification Service SNS Topic",
+        "technology" : "SNS Topic"
+      }, {
+        "description" : "Fila que recebe mensagens filtradas do tópico SNS.",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "MESSAGE-QUEUE",
+        "properties" : {
+          "structurizr.dsl.identifier" : "filasqs"
+        },
+        "tags" : "Element,Container,Queue,Amazon Web Services - Simple Queue Service Queue,Amazon Web Services - Simple Queue Service SQS Queue",
+        "technology" : "AWS SQS"
+      }, {
+        "description" : "Servidor que encaminha mensagens",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "SERVER",
+        "properties" : {
+          "structurizr.dsl.identifier" : "server"
+        },
+        "relationships" : [ {
+          "description" : "Publica mensagens no tópico",
+          "destinationId" : "2",
+          "id" : "5",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Amazon Web Services - Elastic Container Service Service",
+        "technology" : ".NET 8"
+      } ],
+      "documentation" : { },
+      "id" : "1",
+      "location" : "Unspecified",
+      "name" : "Sistema de Notificações",
+      "properties" : {
+        "structurizr.dsl.identifier" : "sistema"
+      },
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Name",
+  "properties" : {
+    "structurizr.dsl" : "d29ya3NwYWNlIHsKICAgIG1vZGVsIHsKICAgICAgICBzaXN0ZW1hID0gc29mdHdhcmVTeXN0ZW0gIlNpc3RlbWEgZGUgTm90aWZpY2HDp8O1ZXMiIHsKICAgICAgICAgICAgc25zdG9waWMgPSBjb250YWluZXIgIk1FU1NBR0UtVE9QSUMiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJUw7NwaWNvIFNOUyB1c2FkbyBwYXJhIGRpc3RyaWJ1aXIgbWVuc2FnZW5zLiIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlNOUyBUb3BpYyIKICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBTaW1wbGUgTm90aWZpY2F0aW9uIFNlcnZpY2UgVG9waWMiICJUb3BpYyIgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBTaW1wbGUgTm90aWZpY2F0aW9uIFNlcnZpY2UgU05TIFRvcGljIgogICAgICAgICAgICB9CiAgICAgICAgICAgIGZpbGFTUVMgPSBjb250YWluZXIgIk1FU1NBR0UtUVVFVUUiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJGaWxhIHF1ZSByZWNlYmUgbWVuc2FnZW5zIGZpbHRyYWRhcyBkbyB0w7NwaWNvIFNOUy4iCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBV1MgU1FTIgogICAgICAgICAgICAgICAgdGFncyAiUXVldWUiICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gU2ltcGxlIFF1ZXVlIFNlcnZpY2UgUXVldWUiICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gU2ltcGxlIFF1ZXVlIFNlcnZpY2UgU1FTIFF1ZXVlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHNlcnZlciA9IGNvbnRhaW5lciAiU0VSVkVSIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2Vydmlkb3IgcXVlIGVuY2FtaW5oYSBtZW5zYWdlbnMiCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICIuTkVUIDgiCiAgICAgICAgICAgICAgICB0YWdzICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gRWxhc3RpYyBDb250YWluZXIgU2VydmljZSBTZXJ2aWNlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIHNlcnZlciAtPiBzbnN0b3BpYyAiUHVibGljYSBtZW5zYWdlbnMgbm8gdMOzcGljbyIKICAgICAgICAgICAgc25zdG9waWMgLT4gZmlsYVNRUyAiRW52aWEgbWVuc2FnZW5zIGZpbHRyYWRhcyBwYXJhIgogICAgICAgIH0KCiAgICAgICAgbGl2ZSA9IGRlcGxveW1lbnRFbnZpcm9ubWVudCAiTGl2ZSIgewogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiQW1hem9uIFdlYiBTZXJ2aWNlcyIgewogICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIENsb3VkIgoKICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJFbnRlcnByaXNlInsKICAgICAgICAgICAgICAgICAgICB0YWdzICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gU2VydmVyIGNvbnRlbnRzIiAjIkFtYXpvbiBXZWIgU2VydmljZXMgLSBXb3JrTWFpbCIKICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAic2EtZWFzdC0xIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBSZWdpb24iCgogICAgICAgICAgICAgICAgICAgICAgICBpbmZyYXN0cnVjdHVyZU5vZGUgIktNUyBQYXJhbWV0ZXIiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBLZXkgTWFuYWdlbWVudCBTZXJ2aWNlIgogICAgICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgICAgICAvLyBkZXBsb3ltZW50Tm9kZSAiQW1hem9uIEVDUyIgewogICAgICAgICAgICAgICAgICAgICAgICAvLyAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIEVsYXN0aWMgQ29udGFpbmVyIFNlcnZpY2UiCiAgICAgICAgICAgICAgICAgICAgICAgIC8vICAgICBjb250YWluZXJJbnN0YW5jZSBzZXJ2ZXIKICAgICAgICAgICAgICAgICAgICAgICAgLy8gfQoKICAgICAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkFtYXpvbiBTTlMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBTaW1wbGUgTm90aWZpY2F0aW9uIFNlcnZpY2UgU05TIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2Ugc25zdG9waWMKICAgICAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkFtYXpvbiBTUVMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBTaW1wbGUgUXVldWUgU2VydmljZSBTUVMiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBmaWxhU1FTCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbmZyYXN0cnVjdHVyZU5vZGUgIk1FU1NBR0UtUVVFVUUtRExRIiB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiUXVldWUiICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gU2ltcGxlIFF1ZXVlIFNlcnZpY2UgUXVldWUiICJBbWF6b24gV2ViIFNlcnZpY2VzIC0gU2ltcGxlIFF1ZXVlIFNlcnZpY2UgU1FTIFF1ZXVlIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiQ2xvdWRXYXRjaCIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiQW1hem9uIFdlYiBTZXJ2aWNlcyAtIENsb3VkV2F0Y2giCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnN0YW5jZXMgNQogICAgICAgICAgICAgICAgICAgICAgICAgICAgaW5mcmFzdHJ1Y3R1cmVOb2RlICJBbGFybWVzIFNRUyBRdWV1ZSIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBDbG91ZFdhdGNoIEFsYXJtIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICAgICAgaW5mcmFzdHJ1Y3R1cmVOb2RlICJBbGFybWVzIFNOUyBUb3BpYyIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkFtYXpvbiBXZWIgU2VydmljZXMgLSBDbG91ZFdhdGNoIEFsYXJtIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQogICAgdmlld3MgewogICAgICAgIGNvbnRhaW5lciBzaXN0ZW1hICJzbnMtY29tLXNxcyIgewogICAgICAgICAgICBpbmNsdWRlIHNuc3RvcGljCiAgICAgICAgICAgIGluY2x1ZGUgZmlsYVNRUwogICAgICAgICAgICBpbmNsdWRlIHNlcnZlcgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgfQogICAgICAgIGRlcGxveW1lbnQgKiBsaXZlICJkZXBsb3ktZGV2InsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIC8vIGF1dG9MYXlvdXQgdGIKICAgICAgICB9CgogICAgICAgIHRoZW1lIGh0dHBzOi8vc3RhdGljLnN0cnVjdHVyaXpyLmNvbS90aGVtZXMvYW1hem9uLXdlYi1zZXJ2aWNlcy0yMDIwLjA0LjMwL3RoZW1lLmpzb24KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJBcHBsaWNhdGlvbiIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29tcG9uZW50IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIktleVZhbHVlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSByb3VuZGVkYm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJRdWV1ZSIgewogICAgICAgICAgICAgICAgc2hhcGUgcGlwZQogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwODQyN2IKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkludGVybmFsIFN5c3RlbSIgewogICAgICAgICAgICAgICAgc3Ryb2tlICMyMzRFRkUKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZmZmZgogICAgICAgICAgICAgICAgY29sb3IgIzIzNEVGRQogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkV4dGVybmFsIFN5c3RlbSIgewogICAgICAgICAgICAgICAgc3Ryb2tlICMwMDAwMDAKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZmZmZgogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkh1YiIgewogICAgICAgICAgICAgICAgc3Ryb2tlICNmZmE1MDAKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZmZmZgogICAgICAgICAgICAgICAgY29sb3IgI2ZmYTUwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkMjIiB7CiAgICAgICAgICAgICAgICBzdHJva2UgIzE3ODYwMAogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmZmZmCiAgICAgICAgICAgICAgICBjb2xvciAjMTc4NjAwCiAgICAgICAgICAgICAgICBzaGFwZSByb3VuZGVkYm94CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQnVja2V0IiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlRvcGljIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBoZXhhZ29uCiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICAgICAgCiAgICAgICAgdGhlbWVzIGh0dHBzOi8vc3RhdGljLnN0cnVjdHVyaXpyLmNvbS90aGVtZXMvYW1hem9uLXdlYi1zZXJ2aWNlcy0yMDIzLjAxLjMxL3RoZW1lLmpzb24KICAgIH0KfQ=="
+  },
+  "views" : {
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "deploy-dev",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#ffffff",
+          "tag" : "Application"
+        }, {
+          "background" : "#ffffff",
+          "tag" : "Component"
+        }, {
+          "background" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "KeyValue"
+        }, {
+          "background" : "#ffffff",
+          "shape" : "Pipe",
+          "tag" : "Queue"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#ffffff",
+          "color" : "#234efe",
+          "stroke" : "#234efe",
+          "tag" : "Internal System"
+        }, {
+          "background" : "#ffffff",
+          "color" : "#000000",
+          "stroke" : "#000000",
+          "tag" : "External System"
+        }, {
+          "background" : "#ffffff",
+          "color" : "#ffa500",
+          "stroke" : "#ffa500",
+          "tag" : "Hub"
+        }, {
+          "background" : "#ffffff",
+          "color" : "#178600",
+          "shape" : "RoundedBox",
+          "stroke" : "#178600",
+          "tag" : "C#"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Bucket"
+        }, {
+          "shape" : "Hexagon",
+          "tag" : "Topic"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json", "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/theme.json" ]
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 2011,
+        "width" : 890
+      },
+      "elements" : [ {
+        "id" : "2",
+        "x" : 219,
+        "y" : 819
+      }, {
+        "id" : "3",
+        "x" : 219,
+        "y" : 1419
+      }, {
+        "id" : "4",
+        "x" : 219,
+        "y" : 219
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "sns-com-sqs",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "5"
+      }, {
+        "id" : "6"
+      } ],
+      "softwareSystemId" : "1"
+    } ],
+    "deploymentViews" : [ {
+      "dimensions" : {
+        "height" : 1871,
+        "width" : 3076
+      },
+      "elements" : [ {
+        "id" : "7",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "8",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "9",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "10",
+        "x" : 1029,
+        "y" : 324
+      }, {
+        "id" : "11",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "12",
+        "x" : 1704,
+        "y" : 279
+      }, {
+        "id" : "13",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "14",
+        "x" : 1704,
+        "y" : 1005
+      }, {
+        "id" : "16",
+        "x" : 954,
+        "y" : 1005
+      }, {
+        "id" : "17",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "18",
+        "x" : 2345,
+        "y" : 1006
+      }, {
+        "id" : "19",
+        "x" : 2345,
+        "y" : 324
+      } ],
+      "environment" : "Live",
+      "key" : "deploy-dev",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "15"
+      } ]
+    } ]
+  }
+}
