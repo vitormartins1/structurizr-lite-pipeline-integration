@@ -16,6 +16,11 @@ jobs:
           unzip structurizr-cli.zip -d structurizr-cli
           chmod +x structurizr-cli/structurizr.sh
 
+      - name: Install Dependencies for Custom Action
+        run: |
+          cd .github/actions/structurizr-export
+          npm install
+
       - name: Run Structurizr Export Action
         uses: ./.github/actions/structurizr-export
         with:
