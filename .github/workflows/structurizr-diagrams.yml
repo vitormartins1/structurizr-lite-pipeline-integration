@@ -13,7 +13,7 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - structurizr-pipeline-integration/docs:/usr/local/structurizr"
+          - docs:/usr/local/structurizr"
 
     steps:
       - name: Checkout Repository
