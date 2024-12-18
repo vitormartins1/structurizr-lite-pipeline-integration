@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: Install system dependencies
         run: |
           apt-get update
@@ -31,7 +31,7 @@ jobs:
             libpango-1.0-0 \
             libcairo2 \
             libasound2 \
-            libgobject-2.0-0 \
+            libglib2.0-0 \
             libxi6
 
       - name: Install Puppeteer Dependencies
