@@ -13,13 +13,11 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
+          - ./docs:/usr/local/structurizr:rw
 
     steps:
       - name: Adjust Permissions for Problematic Files
-        run: |
-          sudo chmod -R u+rwx ./docs || true
-          sudo rm -f ./docs/workspace.dsl || true
+        run: sudo chmod -R u+rwx ./docs || true
 
       - name: Clean Workspace
         run: sudo rm -rf ${{ github.workspace }} || true
@@ -31,6 +29,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: Verify Node.js Path
+        run: which node
 
       - name: Verify Node.js Version
         run: node --version
