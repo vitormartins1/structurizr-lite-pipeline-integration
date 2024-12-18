@@ -39,8 +39,9 @@ if (!url || (format !== PNG_FORMAT && format !== SVG_FORMAT)) {
     }, view);
 
     await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
-
-    const filePath = path.join(outputDir, `${view.key}.${format}`);
+    
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Gera algo como "2024-12-18T01-23-45"
+    const filePath = path.join(outputDir, `${view.key}-${timestamp}.${format}`);
     if (format === PNG_FORMAT) {
       const content = await page.evaluate(() =>
         structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true, crop: false })

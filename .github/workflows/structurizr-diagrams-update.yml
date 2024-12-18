@@ -14,10 +14,21 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: |
           cd .github/actions/structurizr-export
-          npm install puppeteer
+          npm install puppeteer --loglevel verbose
+
+      - name: Clean diagrams directory
+        run: rm -rf ./docs/diagrams/*
 
       - name: Run Structurizr Lite in Docker
         run: |
@@ -31,13 +42,23 @@ jobs:
       - name: Export Diagrams with Puppeteer
         run: |
           cd .github/actions/structurizr-export
-          node export-diagrams.js http://localhost:8080 png
+          node index.js http://localhost:8080 png
 
       - name: List Generated Files
-        run: ls -la ./docs
+        run: ls -la ./docs/diagrams
 
       - name: Upload Diagrams
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: ./docs/
+          path: ./docs/diagrams/
+
+      - name: Commit and Push Diagrams
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add ./docs/diagrams
+          git commit -m "Auto-update: Export Structurizr diagrams"
+          git push origin ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
