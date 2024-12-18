@@ -23,7 +23,10 @@ jobs:
         run: curl -I http://structurizr:8080
 
       - name: Verificar estado do container Structurizr
-        run: docker ps --filter "name=structurizr" --format "{{.ID}} {{.Status}}"
+        run: |
+          container_id=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+          echo "Container ID: $container_id"
+          docker inspect $container_id
 
       - name: Verificar volumes no Structurizr
         run: docker inspect $(docker ps --filter "name=structurizr" --format "{{.ID}}") --format '{{ json .Mounts }}'
