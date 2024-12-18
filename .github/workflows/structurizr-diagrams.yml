@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   export-diagrams:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
     container:
       image: node:18-bullseye
     services:
