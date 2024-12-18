@@ -1,0 +1,15 @@
+name: Structurizr Export Action
+description: Exporta diagramas Structurizr de arquivos .dsl para PNG quando alterados.
+inputs:
+  workspace_path:
+    description: 'Caminho do arquivo .dsl a ser processado'
+    required: true
+    default: './docs'
+  output_path:
+    description: 'Pasta de saída para os PNGs gerados'
+    required: true
+    default: './docs/diagrams'
+
+runs:
+  using: 'node16'
+  main: 'index.js'

@@ -1,6 +1,6 @@
 workspace {
     model {
-        sistema = softwareSystem "Sistema de Notificações" {
+        sistema = softwareSystem "Sistema de Notificações " {
             snstopic = container "MESSAGE-TOPIC" {
                 description "Tópico SNS usado para distribuir mensagens."
                 technology "SNS Topic"
