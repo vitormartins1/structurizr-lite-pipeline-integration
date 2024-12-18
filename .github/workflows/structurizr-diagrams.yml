@@ -19,8 +19,8 @@ jobs:
       - name: Adjust Permissions
         run: sudo chmod -R u+rwx ./docs || true
 
-      # - name: Force Remove Problematic File
-      #   run: sudo rm -f ./docs/workspace.dsl || true
+      - name: Force Remove Problematic File
+        run: sudo rm -f ./docs/workspace.dsl || true
 
       # - name: Clean Workspace
       #   run: sudo rm -rf ${{ github.workspace }} || true
