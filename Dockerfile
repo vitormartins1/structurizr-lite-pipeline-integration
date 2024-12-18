@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y curl unzip openjdk-17-jre
 
 # Baixar o Structurizr CLI
 WORKDIR /opt/structurizr
-ADD https://github.com/structurizr/cli/releases/download/v1.23.0/structurizr-cli.zip .
+ADD https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip .
 RUN unzip structurizr-cli.zip && rm structurizr-cli.zip
 
 # Instalar Puppeteer
