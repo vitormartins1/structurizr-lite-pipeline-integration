@@ -1,4 +1,4 @@
-
+const STRUCTURIZR_URL = STRUCTURIZR_URL;
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
@@ -35,7 +35,7 @@ async function waitForStructurizrLite() {
   for (let attempt = 0; attempt < 10; attempt++) {
     try {
       console.log(`Tentativa ${attempt + 1}: Verificando disponibilidade do Structurizr Lite...`);
-      await page.goto('http://structurizr:8080', { waitUntil: 'domcontentloaded', timeout: 5000 });
+      await page.goto(STRUCTURIZR_URL, { waitUntil: 'domcontentloaded', timeout: 5000 });
       console.log('Structurizr Lite está disponível.');
       return true;
     } catch (error) {

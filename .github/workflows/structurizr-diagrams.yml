@@ -13,9 +13,7 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ./docs:/usr/local/structurizr
-        options: >-
-          --env WORKSPACE_PATH=/usr/local/structurizr/workspace.dsl
+          - "/docs":/usr/local/structurizr
 
     steps:
       - name: Checkout Repository
