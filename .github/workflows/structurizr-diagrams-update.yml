@@ -3,20 +3,20 @@ name: Structurizr Export Workspace Views Workflow
 on: [push, pull_request]
 
 jobs:
-  setup-environment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+  # setup-environment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v4
 
-      - name: Install Structurizr CLI
-        run: |
-          wget https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip
-          unzip structurizr-cli.zip -d structurizr-cli
-          chmod +x structurizr-cli/structurizr.sh
+  #     - name: Install Structurizr CLI
+  #       run: |
+  #         wget https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip
+  #         unzip structurizr-cli.zip -d structurizr-cli
+  #         chmod +x structurizr-cli/structurizr.sh
 
-      - name: Create Output Directory
-        run: mkdir -p ./docs/diagrams
+  #     - name: Create Output Directory
+  #       run: mkdir -p ./docs/diagrams
 
   generate-diagrams:
     runs-on: ubuntu-latest
@@ -25,6 +25,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install Structurizr CLI
+        run: |
+          # Baixa o Structurizr CLI
+          wget -q https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip -O structurizr-cli.zip
+          
+          # Cria o diretório e extrai o conteúdo
+          mkdir -p structurizr-cli
+          unzip -o structurizr-cli.zip -d structurizr-cli
+          
+          # Corrige o caminho do script e aplica permissões
+          mv structurizr-cli/structurizr.sh structurizr-cli/structurizr.sh
+          chmod +x structurizr-cli/structurizr.sh
+          
+          # Verificação
+          ls -la structurizr-cli
+          
       - name: Install Dependencies for Custom Action
         run: |
           cd .github/actions/structurizr-export
