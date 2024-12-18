@@ -1,13 +1,13 @@
 {
-  "name": "structurizr-export-action",
+  "name": "structurizr-export",
   "version": "1.0.0",
-  "description": "Exporta diagramas Structurizr de arquivos .dsl para PNG",
+  "description": "Export Structurizr diagrams using Puppeteer",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "exec-sh": "^0.4.0"
+    "puppeteer": "^21.3.0"
   }
 }
