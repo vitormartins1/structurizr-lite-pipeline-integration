@@ -17,6 +17,7 @@ const outputDir = './docs/diagrams/';
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
+    console.log(`Diagramas serão exportados para: ${outputDir}`);
 
     const browser = await puppeteer.launch({
       headless: "new", // Nova implementação headless
@@ -52,7 +53,7 @@ const outputDir = './docs/diagrams/';
     for (const view of views) {
       try {
         const filename = `${outputDir}${view.key}.${format}`;
-        console.log(`Exportando: ${filename}`);
+        console.log(`Exportando diagrama para: ${filename}`);
         if (format === 'png') {
           const buffer = await page.evaluate((key) => {
             return structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true });
