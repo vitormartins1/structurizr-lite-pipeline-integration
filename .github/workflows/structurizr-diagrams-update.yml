@@ -13,7 +13,7 @@ jobs:
       - name: Install Structurizr CLI
         run: |
           wget https://github.com/structurizr/cli/releases/download/v2024.12.07/structurizr-cli.zip
-          unzip structurizr-cli-1.23.0.zip -d structurizr-cli
+          unzip structurizr-cli.zip -d structurizr-cli
           chmod +x structurizr-cli/structurizr.sh
 
       - name: Run Structurizr Export Action
