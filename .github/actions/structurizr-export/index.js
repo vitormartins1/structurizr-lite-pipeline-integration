@@ -20,9 +20,21 @@ const fs = require('fs');
 
     console.log(`Arquivo encontrado: ${workspaceFile}`);
 
+    // Caminho do Structurizr CLI
+    const structurizrPath = path.resolve('./structurizr-cli/structurizr.sh');
+    console.log(`Caminho do Structurizr CLI: ${structurizrPath}`);
+
+    if (!fs.existsSync(structurizrPath)) {
+      console.error(`Structurizr CLI não encontrado em: ${structurizrPath}`);
+      return;
+    }
+
+    // Garantir permissão de execução
+    await exec(`chmod +x ${structurizrPath}`);
+
     // Gera os diagramas a partir do arquivo workspace.dsl
     console.log(`Gerando diagramas para: ${workspaceFile}`);
-    const exportCommand = `./structurizr-cli/structurizr.sh export -w ${workspaceFile} -f png -o ${outputPath}`;
+    const exportCommand = `${structurizrPath} export -w ${workspaceFile} -f png -o ${outputPath}`;
     await exec(exportCommand, { stdio: 'inherit' });
 
     console.log('Exportação concluída com sucesso.');
