@@ -1,44 +1,41 @@
 const core = require('@actions/core');
-const exec = require('exec-sh').promise;
+const puppeteer = require('puppeteer');
 const path = require('path');
-const fs = require('fs');
 
 (async () => {
   try {
-    // Inputs da Action
-    const workspacePath = core.getInput('workspace_path'); // './docs'
-    const outputPath = core.getInput('output_path'); // './docs/diagrams'
-    const workspaceFile = path.join(workspacePath, 'workspace.dsl'); // Caminho do arquivo workspace.dsl
+    const structurizrUrl = core.getInput('structurizr_url'); // URL do workspace
+    const outputPath = core.getInput('output_path'); // Pasta de saída para os PNGs
 
-    console.log(`Procurando pelo arquivo workspace.dsl no diretório: ${workspacePath}`);
+    console.log(`Iniciando exportação para URL: ${structurizrUrl}`);
 
-    // Verifica se o arquivo workspace.dsl existe
-    if (!fs.existsSync(workspaceFile)) {
-      console.log(`Arquivo workspace.dsl não encontrado em: ${workspaceFile}`);
-      return;
+    // Lança o navegador headless
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Carrega a página do Structurizr
+    await page.goto(structurizrUrl, { waitUntil: 'networkidle2' });
+
+    // Espera o botão de export aparecer e clica
+    await page.waitForSelector('[data-action="export"]');
+    await page.click('[data-action="export"]');
+
+    // Aguarda que os diagramas sejam renderizados
+    await page.waitForTimeout(5000); // Ajuste conforme necessário
+
+    // Salva os diagramas como PNG
+    const diagramHandles = await page.$$('.structurizr-diagram');
+    for (let i = 0; i < diagramHandles.length; i++) {
+      const diagram = diagramHandles[i];
+      const filePath = path.join(outputPath, `diagram-${i + 1}.png`);
+
+      console.log(`Exportando: ${filePath}`);
+      await diagram.screenshot({ path: filePath });
     }
 
-    console.log(`Arquivo encontrado: ${workspaceFile}`);
-
-    // Caminho do Structurizr CLI
-    const structurizrPath = path.resolve('./structurizr-cli/structurizr.sh');
-    console.log(`Caminho do Structurizr CLI: ${structurizrPath}`);
-
-    if (!fs.existsSync(structurizrPath)) {
-      console.error(`Structurizr CLI não encontrado em: ${structurizrPath}`);
-      return;
-    }
-
-    // Garantir permissão de execução
-    await exec(`chmod +x ${structurizrPath}`);
-
-    // Gera os diagramas a partir do arquivo workspace.dsl
-    console.log(`Gerando diagramas para: ${workspaceFile}`);
-    const exportCommand = `${structurizrPath} export -w ${workspaceFile} -f png -o ${outputPath}`;
-    await exec(exportCommand, { stdio: 'inherit' });
-
+    await browser.close();
     console.log('Exportação concluída com sucesso.');
   } catch (error) {
-    core.setFailed(`Erro durante a execução: ${error.message}`);
+    core.setFailed(`Erro ao exportar diagramas: ${error.message}`);
   }
 })();
