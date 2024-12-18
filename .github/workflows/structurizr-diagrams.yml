@@ -13,11 +13,18 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - "/docs:/usr/local/structurizr"
+          - structurizr/docs:/usr/local/structurizr"
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Test Structurizr Service Availability
+        run: curl -I http://structurizr:8080
+
+      - name: List Structurizr Workspace Files
+        run: ls -la /usr/local/structurizr
+        shell: bash
 
       - name: Install system dependencies
         run: |
