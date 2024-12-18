@@ -13,7 +13,8 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ./docs:/usr/local/structurizr:rw
+          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
+        options: --network-alias structurizr
 
     steps:
       - name: Fix Permissions
