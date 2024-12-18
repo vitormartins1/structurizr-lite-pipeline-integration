@@ -3,9 +3,8 @@ name: Structurizr Export Workspace Views Workflow
 on: [push, pull_request]
 
 jobs:
-  generate-diagrams:
+  setup-environment:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -16,10 +15,20 @@ jobs:
           unzip structurizr-cli.zip -d structurizr-cli
           chmod +x structurizr-cli/structurizr.sh
 
+      - name: Create Output Directory
+        run: mkdir -p ./docs/diagrams
+
       - name: Install Dependencies for Custom Action
         run: |
           cd .github/actions/structurizr-export
           npm install
+
+  generate-diagrams:
+    runs-on: ubuntu-latest
+    needs: setup-environment
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Run Structurizr Export Action
         uses: ./.github/actions/structurizr-export
@@ -27,8 +36,25 @@ jobs:
           workspace_path: './docs'
           output_path: './docs/diagrams'
 
+  list-diagrams:
+    runs-on: ubuntu-latest
+    needs: generate-diagrams
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: List Generated Files
+        run: ls -la ./docs/diagrams
+
+  upload-artifacts:
+    runs-on: ubuntu-latest
+    needs: list-diagrams
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Upload Diagrams
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: ./docs/diagrams
+          path: ./docs/diagrams/
