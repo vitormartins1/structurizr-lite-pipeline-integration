@@ -1,3 +1,5 @@
+process.env.DEBUG = 'puppeteer:*';
+
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
@@ -9,6 +11,26 @@ if (process.argv.length < 4) {
 const url = process.argv[2];
 const format = process.argv[3];
 const outputDir = './docs/diagrams/';
+
+const http = require('http');
+
+// const testServer = async (url) => {
+//   return new Promise((resolve, reject) => {
+//     http.get(url, (res) => {
+//       if (res.statusCode === 200) resolve(true);
+//       else reject(new Error(`Server responded with status: ${res.statusCode}`));
+//     }).on('error', (err) => reject(err));
+//   });
+// };
+
+// try {
+//   console.log(`Verificando acesso ao Structurizr Lite em: ${url}`);
+//   await testServer('http://localhost:8080');
+//   console.log('Conexão bem-sucedida!');
+// } catch (error) {
+//   console.error('Erro ao conectar ao Structurizr Lite:', error.message);
+//   process.exit(1);
+// }
 
 (async () => {
   console.log('Iniciando exportação de diagramas...');
@@ -58,7 +80,9 @@ const outputDir = './docs/diagrams/';
           const buffer = await page.evaluate((key) => {
             return structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true });
           }, view.key);
-          fs.writeFileSync(filename, buffer, 'base64');
+          const decodedBuffer = Buffer.from(buffer, 'base64');
+          fs.writeFileSync(filename, decodedBuffer);
+          console.log(`Buffer length para ${view.key}:`, buffer.length);
         } else if (format === 'svg') {
           const svg = await page.evaluate(() => {
             return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
