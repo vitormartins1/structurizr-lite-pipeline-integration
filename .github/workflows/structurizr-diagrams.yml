@@ -41,12 +41,6 @@ jobs:
       - name: Verificar arquivos montados no Structurizr
         run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
 
-      - name: Testar disponibilidade do Structurizr step 1
-        run: curl -I http://localhost:8080
-
-      - name: Testar disponibilidade do Structurizr step 2
-        run: curl -I http://localhost:8080/workspace/diagrams
-
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
