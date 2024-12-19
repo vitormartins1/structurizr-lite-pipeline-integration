@@ -1,4 +1,4 @@
-const STRUCTURIZR_URL = 'http://localhost:8080';
+const STRUCTURIZR_URL = 'http://localhost:8080/workspace/diagrams';
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
@@ -13,23 +13,6 @@ const outputDir = './docs/diagrams/';
 
 const http = require('http');
 
-// const testServer = async (url) => {
-//   return new Promise((resolve, reject) => {
-//     http.get(url, (res) => {
-//       if (res.statusCode === 200) resolve(true);
-//       else reject(new Error(`Server responded with status: ${res.statusCode}`));
-//     }).on('error', (err) => reject(err));
-//   });
-// };
-
-// try {
-//   console.log(`Verificando acesso ao Structurizr Lite em: ${url}`);
-//   await testServer('http://localhost:8080');
-//   console.log('Conexão bem-sucedida!');
-// } catch (error) {
-//   console.error('Erro ao conectar ao Structurizr Lite:', error.message);
-//   process.exit(1);
-// }
 
 async function waitForStructurizrLite() {
   for (let attempt = 0; attempt < 10; attempt++) {
