@@ -13,27 +13,27 @@ const outputDir = './docs/diagrams/';
 
 const http = require('http');
 
-async function waitForStructurizrLite() {
-  for (let attempt = 0; attempt < 10; attempt++) {
-    try {
-      console.log(`Tentativa ${attempt + 1}: Verificando disponibilidade do Structurizr Lite...`);
-      await page.goto('http://localhost:8080', { waitUntil: 'domcontentloaded', timeout: 5000 });
+// async function waitForStructurizrLite() {
+//   for (let attempt = 0; attempt < 10; attempt++) {
+//     try {
+//       console.log(`Tentativa ${attempt + 1}: Verificando disponibilidade do Structurizr Lite...`);
+//       await page.goto('http://localhost:8080', { waitUntil: 'domcontentloaded', timeout: 5000 });
       
-      // Verifica redirecionamento explícito
-      const currentUrl = page.url();
-      if (currentUrl.includes('/workspace/diagrams')) {
-        console.log('Structurizr Lite está disponível.');
-        return true;
-      }
+//       // Verifica redirecionamento explícito
+//       const currentUrl = page.url();
+//       if (currentUrl.includes('/workspace/diagrams')) {
+//         console.log('Structurizr Lite está disponível.');
+//         return true;
+//       }
       
-      console.log('Aguardando redirecionamento correto...');
-    } catch (error) {
-      console.log(`Structurizr Lite ainda não está disponível. Tentando novamente em 3 segundos...`);
-      await new Promise(resolve => setTimeout(resolve, 3000));
-    }
-  }
-  throw new Error('Structurizr Lite não está acessível após múltiplas tentativas.');
-}
+//       console.log('Aguardando redirecionamento correto...');
+//     } catch (error) {
+//       console.log(`Structurizr Lite ainda não está disponível. Tentando novamente em 3 segundos...`);
+//       await new Promise(resolve => setTimeout(resolve, 3000));
+//     }
+//   }
+//   throw new Error('Structurizr Lite não está acessível após múltiplas tentativas.');
+// }
 
 // await waitForStructurizrLite();
 
