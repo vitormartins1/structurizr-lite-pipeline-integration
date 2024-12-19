@@ -11,17 +11,11 @@ jobs:
         image: structurizr/lite:latest
         ports:
           - 8080:8080
-        volumes:
-          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
+        # volumes:
+        #   - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
         options: --network-alias structurizr
 
     steps:
-      # - name: Ajustar permissões do workspace
-      #   run: sudo chmod -R u+rwx ${{ github.workspace }} || true
-
-      # - name: Limpar diretórios problemáticos
-      #   run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
-
       - name: Ajustar permissões do workspace
         run: |
           sudo chmod -R u+rwx ${{ github.workspace }} || true
@@ -33,19 +27,22 @@ jobs:
           fetch-depth: 1
           clean: true
 
+      - name: Copy workspace files to Structurizr container
+        run: |
+          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+          docker cp ${{ github.workspace }}/docs/workspace.dsl $CONTAINER_ID:/usr/local/structurizr/workspace.dsl
+          docker cp ${{ github.workspace }}/docs/styles.dsl $CONTAINER_ID:/usr/local/structurizr/styles.dsl
+
+      - name: Verify files in Structurizr container
+        run: |
+          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+          docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
+          
       - name: Verificar arquivos workspace
         run: ls -la ${{ github.workspace }}
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/docs
-
-      - name: Verificar conteúdo da pasta diagrams
-        run: ls -la ${{ github.workspace }}/docs/diagrams
-
-      - name: Copiar arquivos para o container Structurizr
-        run: |
-          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
-          docker cp ${{ github.workspace }}/docs/. $CONTAINER_ID:/usr/local/structurizr/
 
       - name: Verificar arquivos montados no Structurizr
         run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
