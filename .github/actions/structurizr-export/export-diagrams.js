@@ -73,18 +73,25 @@ const http = require('http');
       try {
         const filename = `${outputDir}${view.key}.${format}`;
         console.log(`Exportando diagrama para: ${filename}`);
+    
         if (format === 'png') {
-          const buffer = await page.evaluate((key) => {
+          const bufferBase64 = await page.evaluate((key) => {
+            structurizr.scripting.changeView(key); // Alterar para o diagrama correto
             return structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true });
           }, view.key);
-          const decodedBuffer = Buffer.from(buffer, 'base64');
+    
+          // Converter Base64 para Buffer
+          const decodedBuffer = Buffer.from(bufferBase64, 'base64');
           fs.writeFileSync(filename, decodedBuffer);
-          console.log(`Buffer length para ${view.key}:`, buffer.length);
+          console.log(`Exportado com sucesso: ${filename}`);
         } else if (format === 'svg') {
-          const svg = await page.evaluate(() => {
+          const svgContent = await page.evaluate((key) => {
+            structurizr.scripting.changeView(key); // Alterar para o diagrama correto
             return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
-          });
-          fs.writeFileSync(filename, svg);
+          }, view.key);
+    
+          fs.writeFileSync(filename, svgContent, 'utf8');
+          console.log(`Exportado com sucesso: ${filename}`);
         }
       } catch (error) {
         console.error(`Erro ao exportar o diagrama ${view.key}:`, error);
