@@ -21,7 +21,7 @@ jobs:
 
       # - name: Limpar diretórios problemáticos
       #   run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
-      
+
       - name: Ajustar permissões do workspace
         run: |
           sudo chmod -R u+rwx ${{ github.workspace }} || true
@@ -33,8 +33,11 @@ jobs:
           fetch-depth: 1
           clean: true
 
+      - name: Verificar arquivos 
+        run: ls -la ${{ github.workspace }}
+
       - name: Verificar arquivos montados
-        run: ls -la /usr/local/structurizr
+        run: ls -la ${{ github.workspace }}/usr/local/structurizr
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs
