@@ -40,7 +40,7 @@ jobs:
         run: ls -la /home/runner/work/structurizr-pipeline-integration
 
       - name: Verificar arquivos montados
-        run: ls -la ${{ github.workspace }}/usr/local/structurizr
+        run: ls -la /usr/local
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs
