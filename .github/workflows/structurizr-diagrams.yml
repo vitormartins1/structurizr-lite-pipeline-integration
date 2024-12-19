@@ -43,7 +43,7 @@ jobs:
         run: ls -la /usr/local
 
       - name: Verificar conteúdo da pasta docs
-        run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs
+        run: ls -la ${{ github.workspace }}/docs
 
       - name: Testar disponibilidade do Structurizr
         run: curl -I http://localhost:8080
@@ -64,10 +64,10 @@ jobs:
           node export-diagrams.js http://structurizr:8080/workspace/diagrams png
 
       - name: Listar Diagramas Gerados
-        run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs/diagrams
+        run: ls -la ${{ github.workspace }}/docs/diagrams
 
       - name: Upload Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: ${{ github.workspace }}/structurizr-pipeline-integration/docs/diagrams/
+          path: ${{ github.workspace }}/docs/diagrams/
