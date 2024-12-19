@@ -79,11 +79,23 @@ const http = require('http');
             structurizr.scripting.changeView(key); // Garantir que está no diagrama correto
             return structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true });
           }, view.key);
-        
+    
           if (bufferBase64) {
             const decodedBuffer = Buffer.from(bufferBase64, 'base64'); // Decodificar corretamente
             fs.writeFileSync(filename, decodedBuffer); // Gravar no sistema de arquivos
             console.log(`Exportado com sucesso: ${filename}`);
+    
+            // Validação do PNG
+            const validatePNG = (buffer) => {
+              const pngHeader = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+              return buffer.slice(0, 8).equals(pngHeader);
+            };
+    
+            if (!validatePNG(decodedBuffer)) {
+              console.error(`Erro: O arquivo gerado para ${view.key} não é um PNG válido.`);
+            } else {
+              console.log(`Arquivo ${filename} é um PNG válido.`);
+            }
           } else {
             console.error(`Erro: Nenhum dado retornado para o diagrama ${view.key}.`);
           }
@@ -102,17 +114,6 @@ const http = require('http');
     }
 
     console.log('Exportação concluída.');
-
-    const validatePNG = (buffer) => {
-      const pngHeader = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-      return buffer.slice(0, 8).equals(pngHeader);
-    };
-    
-    if (!validatePNG(decodedBuffer)) {
-      console.error(`Erro: O arquivo gerado para ${view.key} não é um PNG válido.`);
-    } else {
-      console.log(`Arquivo ${filename} é um PNG válido.`);
-    }
 
     await browser.close();
   } catch (error) {
