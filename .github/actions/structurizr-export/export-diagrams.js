@@ -11,8 +11,7 @@ const HEADLESS = true;
 const IMAGE_VIEW_TYPE = 'Image';
 
 // Constante para o diretório de saída
-// const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
-const outputDir = '/usr/local/structurizr/images/';
+const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
 
 if (process.argv.length < 4) {
   console.log("Usage: <structurizrUrl> <png|svg> [username] [password]");
@@ -82,33 +81,22 @@ if (process.argv.length > 4) {
         fs.writeFileSync(diagramKeyFilename, svgForKey, 'utf8');
         console.log(` - Exported: ${diagramKeyFilename}`);
       }
-    } else if (format === PNG_FORMAT) {
-      await page.evaluate(
-        (diagramFilename) => {
-          structurizr.scripting.exportCurrentDiagramToPNG(
-            { includeMetadata: true, crop: false },
-            function (png) {
-              window.savePNG(png, diagramFilename);
-            }
-          );
-        },
-        diagramFilename
-      );
+    } else {
+      const diagramFilename = view.key + '.png';
+      const diagramKeyFilename = view.key + '-key.png'
+
+      page.evaluate((diagramFilename) => {
+        structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true, crop: false }, function(png) {
+          window.savePNG(png, diagramFilename);
+        })
+      }, diagramFilename);
 
       if (view.type !== IMAGE_VIEW_TYPE) {
-        await page.evaluate(
-          (diagramKeyFilename) => {
-            structurizr.scripting.exportCurrentDiagramKeyToPNG(function (png) {
-              window.savePNG(png, diagramKeyFilename);
-            });
-          },
-          diagramKeyFilename
-        );
-      }
-
-      console.log(` - Exported: ${diagramFilename}`);
-      if (view.type !== IMAGE_VIEW_TYPE) {
-        console.log(` - Exported: ${diagramKeyFilename}`);
+        page.evaluate((diagramKeyFilename) => {
+          structurizr.scripting.exportCurrentDiagramKeyToPNG(function(png) {
+            window.savePNG(png, diagramKeyFilename);
+          })
+        }, diagramKeyFilename);
       }
     }
   }
