@@ -37,12 +37,6 @@ jobs:
         run: |
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
-          
-      - name: Verificar arquivos workspace
-        run: ls -la ${{ github.workspace }}
-
-      - name: Verificar conteúdo da pasta docs
-        run: ls -la ${{ github.workspace }}/docs
 
       - name: Verificar arquivos montados no Structurizr
         run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr

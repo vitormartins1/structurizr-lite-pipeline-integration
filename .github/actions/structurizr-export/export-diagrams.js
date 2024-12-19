@@ -1,4 +1,4 @@
-const STRUCTURIZR_URL = 'http://structurizr:8080';
+const STRUCTURIZR_URL = 'http://localhost:8080';
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
