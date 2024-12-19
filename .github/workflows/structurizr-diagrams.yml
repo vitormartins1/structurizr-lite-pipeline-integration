@@ -21,6 +21,11 @@ jobs:
 
       # - name: Limpar diretórios problemáticos
       #   run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
+      
+      - name: Ajustar permissões do workspace
+        run: |
+          sudo chmod -R u+rwx ${{ github.workspace }} || true
+          sudo chown -R $USER:$USER ${{ github.workspace }} || true
 
       - name: Checkout Repository
         uses: actions/checkout@v4
