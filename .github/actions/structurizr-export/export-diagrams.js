@@ -56,9 +56,12 @@ if (process.argv.length > 4) {
   }
 
   console.log(` - Opening ${url}`);
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction('structurizr.scripting && structurizr.scripting.isDiagramRendered() === true');
-
+  await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 }); // 60 segundos
+  await page.waitForFunction(
+    'structurizr.scripting.isDiagramRendered() === true',
+    { timeout: 60000 } // 60 segundos
+  );
+  
   const views = await page.evaluate(() => structurizr.scripting.getViews());
   console.log(" - Starting export");
 
