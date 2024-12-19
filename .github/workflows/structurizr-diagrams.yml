@@ -16,17 +16,20 @@ jobs:
         options: --network-alias structurizr
 
     steps:
+      - name: Ajustar permissões do workspace
+        run: sudo chmod -R u+rwx ${{ github.workspace }} || true
+
+      - name: Limpar diretórios problemáticos
+        run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          clean: false
           fetch-depth: 1
+          clean: true
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/docs
-
-      - name: Verificar diretório no container
-        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
 
       - name: Testar disponibilidade do Structurizr
         run: curl -I http://localhost:8080
@@ -48,13 +51,6 @@ jobs:
 
       - name: Listar Diagramas Gerados
         run: ls -la ./docs/diagrams
-
-      - name: Verificar Logs
-        run: |
-          echo "Diretório atual:"
-          pwd
-          echo "Arquivos encontrados:"
-          find . -name "*.png"
 
       - name: Upload Diagramas
         uses: actions/upload-artifact@v4
