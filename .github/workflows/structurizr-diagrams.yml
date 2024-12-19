@@ -39,19 +39,22 @@ jobs:
       - name: Verificar arquivos 
         run: ls -la /home/runner/work/structurizr-pipeline-integration
 
-      - name: Verificar arquivos runner
-        run: ls -la /home/runner/work
+      - name: Verificar arquivos volume structurizr
+        run: ls -la /usr/local/structurizr
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/docs
-
-      - name: Verificar arquivos montados no Structurizr
-        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
 
       - name: Copiar arquivos para o container Structurizr
         run: |
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker cp ${{ github.workspace }}/docs/. $CONTAINER_ID:/usr/local/structurizr/
+
+      - name: Verificar arquivos montados no Structurizr
+        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+
+      - name: Verificar arquivos montados no user local container
+        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/localr
 
       - name: Testar disponibilidade do Structurizr
         run: curl -I http://localhost:8080
