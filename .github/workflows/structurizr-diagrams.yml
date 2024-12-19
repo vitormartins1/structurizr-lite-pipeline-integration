@@ -58,19 +58,17 @@ jobs:
           cd .github/actions/structurizr-export
           node export-diagrams.js http://localhost:8080/workspace/diagrams png
 
+      - name: Verify files in Structurizr container
+        run: |
+          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+          docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
+
+      - name: Verificar arquivos montados no Structurizr
+        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
 
-      # - name: Upload Diagramas
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: structurizr-diagrams
-      #     path: ${{ github.workspace }}/docs/diagrams/
-
-  upload-diagrams:
-    runs-on: ubuntu-latest
-    needs: export-diagrams # Garantindo dependência
-    steps:
       - name: Upload Diagramas
         uses: actions/upload-artifact@v4
         with:
