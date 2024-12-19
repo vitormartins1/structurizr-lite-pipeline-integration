@@ -100,11 +100,20 @@ const http = require('http');
             console.error(`Erro: Nenhum dado retornado para o diagrama ${view.key}.`);
           }
         } else if (format === 'svg') {
-          const svgContent = await page.evaluate((key) => {
-            structurizr.scripting.changeView(key); // Alterar para o diagrama correto
-            return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
+          // Alterar para o diagrama correto
+          await page.evaluate((key) => {
+            structurizr.scripting.changeView(key);
           }, view.key);
-    
+
+          // Aguarda o diagrama carregar corretamente
+          await page.waitForFunction((key) => {
+            return structurizr.scripting.getCurrentView().key === key;
+          }, {}, view.key);
+
+          const svgContent = await page.evaluate(() => {
+            return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
+          });
+
           fs.writeFileSync(filename, svgContent, 'utf8');
           console.log(`Exportado com sucesso: ${filename}`);
         }
