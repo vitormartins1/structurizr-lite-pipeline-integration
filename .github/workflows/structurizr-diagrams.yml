@@ -12,15 +12,15 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
+          - ${{ github.workspace }}/structurizr-pipeline-integration/docs:/usr/local/structurizr:rw
         options: --network-alias structurizr
 
     steps:
-      - name: Ajustar permissões do workspace
-        run: sudo chmod -R u+rwx ${{ github.workspace }} || true
+      # - name: Ajustar permissões do workspace
+      #   run: sudo chmod -R u+rwx ${{ github.workspace }} || true
 
-      - name: Limpar diretórios problemáticos
-        run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
+      # - name: Limpar diretórios problemáticos
+      #   run: sudo rm -rf ${{ github.workspace }}/docs/.structurizr || true
 
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -28,8 +28,11 @@ jobs:
           fetch-depth: 1
           clean: true
 
+      - name: Verificar arquivos montados
+        run: ls -la /usr/local/structurizr
+
       - name: Verificar conteúdo da pasta docs
-        run: ls -la ${{ github.workspace }}/docs
+        run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs
 
       - name: Testar disponibilidade do Structurizr
         run: curl -I http://localhost:8080
@@ -50,10 +53,10 @@ jobs:
           node export-diagrams.js http://structurizr:8080/workspace/diagrams png
 
       - name: Listar Diagramas Gerados
-        run: ls -la ./docs/diagrams
+        run: ls -la ${{ github.workspace }}/structurizr-pipeline-integration/docs/diagrams
 
       - name: Upload Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: ./docs/diagrams/
+          path: ${{ github.workspace }}/structurizr-pipeline-integration/docs/diagrams/
