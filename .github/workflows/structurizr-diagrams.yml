@@ -35,13 +35,13 @@ jobs:
           docker cp ${{ github.workspace }}/docs/workspace.json $CONTAINER_ID:/usr/local/structurizr/workspace.json
           docker cp ${{ github.workspace }}/docs/.structurizr $CONTAINER_ID:/usr/local/structurizr/.structurizr
 
-      - name: Verify files in Structurizr container
-        run: |
-          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
-          docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
+      # - name: Verify files in Structurizr container
+      #   run: |
+      #     CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+      #     docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
 
-      - name: Verificar arquivos montados no Structurizr
-        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+      # - name: Verificar arquivos montados no Structurizr
+      #   run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
@@ -56,7 +56,7 @@ jobs:
       - name: Exportar Diagramas
         run: |
           cd .github/actions/structurizr-export
-          node export-diagrams.js http://localhost:8080/workspace/diagrams svg
+          node export-diagrams.js http://localhost:8080/workspace/diagrams png
 
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
