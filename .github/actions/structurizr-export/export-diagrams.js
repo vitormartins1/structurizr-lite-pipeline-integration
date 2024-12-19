@@ -63,8 +63,8 @@ if (process.argv.length > 4) {
   console.log(" - Starting export");
 
   for (const view of views) {
-    const diagramFilename = path.join(outputDir, `${view.key}.${format}`);
-    const diagramKeyFilename = path.join(outputDir, `${view.key}-key.${format}`);
+    const diagramFilename = `${view.key}.${format}`;
+    const diagramKeyFilename = `${view.key}-key.${format}`;
 
     await page.evaluate(view => structurizr.scripting.changeView(view.key), view);
     await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
@@ -82,9 +82,6 @@ if (process.argv.length > 4) {
         console.log(` - Exported: ${diagramKeyFilename}`);
       }
     } else if (format === PNG_FORMAT) {
-      const diagramFilename = `${outputDir}${view.key}.png`;
-      const diagramKeyFilename = `${outputDir}${view.key}-key.png`;
-
       await page.evaluate(
         (diagramFilename) => {
           structurizr.scripting.exportCurrentDiagramToPNG(
