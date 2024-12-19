@@ -68,7 +68,7 @@ const http = require('http');
       };
     });
 
-    await waitForStructurizrLite();
+    //await waitForStructurizrLite();
 
     console.log(`Acessando Structurizr Lite em: ${url}`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
