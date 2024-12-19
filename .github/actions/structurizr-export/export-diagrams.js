@@ -82,18 +82,34 @@ if (process.argv.length > 4) {
         console.log(` - Exported: ${diagramKeyFilename}`);
       }
     } else if (format === PNG_FORMAT) {
-      const pngForDiagram = await page.evaluate(() =>
-        structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true })
+      const diagramFilename = `${outputDir}${view.key}.png`;
+      const diagramKeyFilename = `${outputDir}${view.key}-key.png`;
+
+      await page.evaluate(
+        (diagramFilename) => {
+          structurizr.scripting.exportCurrentDiagramToPNG(
+            { includeMetadata: true, crop: false },
+            function (png) {
+              window.savePNG(png, diagramFilename);
+            }
+          );
+        },
+        diagramFilename
       );
-      fs.writeFileSync(diagramFilename, Buffer.from(pngForDiagram.replace(/^data:image\/png;base64,/, ''), 'base64'));
-      console.log(` - Exported: ${diagramFilename}`);
 
       if (view.type !== IMAGE_VIEW_TYPE) {
-        const pngForKey = await page.evaluate(() => structurizr.scripting.exportCurrentDiagramKeyToPNG());
-        fs.writeFileSync(
-          diagramKeyFilename,
-          Buffer.from(pngForKey.replace(/^data:image\/png;base64,/, ''), 'base64')
+        await page.evaluate(
+          (diagramKeyFilename) => {
+            structurizr.scripting.exportCurrentDiagramKeyToPNG(function (png) {
+              window.savePNG(png, diagramKeyFilename);
+            });
+          },
+          diagramKeyFilename
         );
+      }
+
+      console.log(` - Exported: ${diagramFilename}`);
+      if (view.type !== IMAGE_VIEW_TYPE) {
         console.log(` - Exported: ${diagramKeyFilename}`);
       }
     }
