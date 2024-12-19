@@ -35,6 +35,8 @@ jobs:
           clean: false
           fetch-depth: 1
 
+      - name: Verificar conteúdo da pasta docs
+        run: ls -la ${{ github.workspace }}/docs
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -62,7 +64,7 @@ jobs:
         run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
 
       - name: List Structurizr Workspace Files
-        run: ls -la /usr/local/structurizr
+        run: ls -la /usr/local/structurizr || echo "Diretório não acessível"
         shell: bash
 
       - name: Install system dependencies
