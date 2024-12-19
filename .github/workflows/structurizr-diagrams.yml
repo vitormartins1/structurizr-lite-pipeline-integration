@@ -5,8 +5,7 @@ on: [push, pull_request]
 jobs:
   export-diagrams:
     runs-on: ubuntu-latest
-    # container:
-    #   image: node:18-bullseye
+
     services:
       structurizr:
         image: structurizr/lite:latest
@@ -17,108 +16,48 @@ jobs:
         options: --network-alias structurizr
 
     steps:
-      - name: Fix Permissions
-        run: sudo chmod -R u+rwx /home/runner/work/structurizr-pipeline-integration || true
-
-      - name: Clean Workspace Files
-        run: |
-          if [ -f "/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/workspace.dsl" ]; then
-            sudo rm -f /home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/workspace.dsl
-          fi
-          if [ -d "/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr" ]; then
-            sudo rm -rf /home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/.structurizr
-          fi
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          clean: false
+          clean: true
           fetch-depth: 1
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/docs
 
-      - name: Setup Node.js
+      - name: Verificar diretório no container
+        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+
+      - name: Testar disponibilidade do Structurizr
+        run: curl -I http://localhost:8080
+
+      - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Verify Node.js Installation
-        run: |
-          which node
-          node --version
-
-      - name: Test Structurizr Service Availability
-        run: curl -I http://localhost:8080
-
-      - name: Verificar estado do container Structurizr
-        run: |
-          container_id=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
-          echo "Container ID: $container_id"
-          docker inspect $container_id
-
-      - name: Verificar volumes no Structurizr
-        run: docker inspect $(docker ps --filter "name=structurizr" --format "{{.ID}}") --format '{{ json .Mounts }}'
-
-      - name: Listar arquivos no Structurizr
-        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
-
-      - name: List Structurizr Workspace Files
-        run: ls -la /usr/local/structurizr || echo "Diretório não acessível"
-        shell: bash
-
-      - name: Install system dependencies
-        run: |
-          apt-get update
-          apt-get install -y \
-            libnss3 \
-            libatk1.0-0 \
-            libatk-bridge2.0-0 \
-            libcups2 \
-            libxcomposite1 \
-            libxrandr2 \
-            libgbm1 \
-            libpango-1.0-0 \
-            libcairo2 \
-            libasound2 \
-            libglib2.0-0 \
-            libxi6 \
-            libxkbcommon0 \
-            libxdamage1 \
-            libxfixes3
-
-      - name: Install Puppeteer Dependencies
+      - name: Instalar dependências
         run: |
           cd .github/actions/structurizr-export
           npm install
 
-      - name: Export Diagrams with Puppeteer
+      - name: Exportar Diagramas
         run: |
           cd .github/actions/structurizr-export
           node export-diagrams.js http://structurizr:8080/workspace/diagrams png
 
-      - name: List Generated Files
+      - name: Listar Diagramas Gerados
         run: ls -la ./docs/diagrams
-      
-      - name: Verificar diretório atual
-        run: pwd
 
-      - name: Listar todos os arquivos no workspace
-        run: find . -name "*.png"
+      - name: Verificar Logs
+        run: |
+          echo "Diretório atual:"
+          pwd
+          echo "Arquivos encontrados:"
+          find . -name "*.png"
 
-      - name: Upload Diagrams
+      - name: Upload Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
-          path: .github/actions/structurizr-export/docs/diagrams/
-
-      # - name: Commit and Push Diagrams
-      #   run: |
-      #     git config user.name "GitHub Actions"
-      #     git config user.email "actions@github.com"
-      #     git add ./docs/diagrams
-      #     git commit -m "Auto-update: Export Structurizr diagrams"
-      #     git push origin ${{ github.ref }}
-      #   working-directory: ${{ github.workspace }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: ./docs/diagrams/
