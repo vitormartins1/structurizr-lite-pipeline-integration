@@ -33,14 +33,11 @@ jobs:
           fetch-depth: 1
           clean: true
 
-      # - name: Verificar arquivos 
-      #   run: ls -la ${{ github.workspace }}
+      - name: Verificar arquivos workspace
+        run: ls -la ${{ github.workspace }}
 
       - name: Verificar arquivos 
         run: ls -la /home/runner/work/structurizr-pipeline-integration
-
-      - name: Verificar arquivos volume structurizr
-        run: ls -la /usr/local/structurizr
 
       - name: Verificar conteúdo da pasta docs
         run: ls -la ${{ github.workspace }}/docs
