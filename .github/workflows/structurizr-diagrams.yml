@@ -19,7 +19,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          clean: true
+          clean: false
           fetch-depth: 1
 
       - name: Verificar conteúdo da pasta docs
