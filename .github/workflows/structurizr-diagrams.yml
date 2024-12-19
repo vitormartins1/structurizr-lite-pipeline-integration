@@ -64,7 +64,7 @@ jobs:
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
 
       - name: Verificar arquivos montados no Structurizr
-        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+        run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr/images
 
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
