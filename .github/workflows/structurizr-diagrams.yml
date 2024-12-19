@@ -12,7 +12,7 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - ${{ github.workspace }}/structurizr-pipeline-integration/docs:/usr/local/structurizr:rw
+          - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
         options: --network-alias structurizr
 
     steps:
@@ -33,8 +33,11 @@ jobs:
           fetch-depth: 1
           clean: true
 
+      # - name: Verificar arquivos 
+      #   run: ls -la ${{ github.workspace }}
+
       - name: Verificar arquivos 
-        run: ls -la ${{ github.workspace }}
+        run: ls -la /home/runner/work/structurizr-pipeline-integration
 
       - name: Verificar arquivos montados
         run: ls -la ${{ github.workspace }}/usr/local/structurizr
