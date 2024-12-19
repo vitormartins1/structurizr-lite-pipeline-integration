@@ -11,7 +11,8 @@ const HEADLESS = true;
 const IMAGE_VIEW_TYPE = 'Image';
 
 // Constante para o diretório de saída
-const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
+// const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
+const outputDir = '/usr/local/structurizr/images/';
 
 if (process.argv.length < 4) {
   console.log("Usage: <structurizrUrl> <png|svg> [username] [password]");
@@ -63,8 +64,8 @@ if (process.argv.length > 4) {
   console.log(" - Starting export");
 
   for (const view of views) {
-    const diagramFilename = `${view.key}.${format}`;
-    const diagramKeyFilename = `${view.key}-key.${format}`;
+    const diagramFilename = path.join(outputDir, `${view.key}.${format}`);
+    const diagramKeyFilename = path.join(outputDir, `${view.key}-key.${format}`);
 
     await page.evaluate(view => structurizr.scripting.changeView(view.key), view);
     await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
