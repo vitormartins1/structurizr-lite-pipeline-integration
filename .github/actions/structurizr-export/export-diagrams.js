@@ -52,7 +52,7 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
 
       if (actualNumberOfExports === expectedNumberOfExports) {
         console.log(" - Finished");
-        await browser.close(); // Use await para garantir que o fechamento do navegador seja sincronizado
+        // browser.close(); // Use await para garantir que o fechamento do navegador seja sincronizado
       }
     });
   }
@@ -134,6 +134,6 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
     }
   }
 
-  console.log(" - Export complete");
+  console.log(" - closing browser");
   await browser.close();
 })();
