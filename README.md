@@ -143,25 +143,25 @@ Exemplo de diagramas gerados pela Action.
 
 - **Diagrama de Container**
 
-![alt](docs/diagrams/sns-com-sqs.svg)
+![alt](docs/diagrams/sns-com-sqs.png)
 
 ---
 
 - **Key**
 
-![alt](docs/diagrams/sns-com-sqs-key.svg)
+![alt](docs/diagrams/sns-com-sqs-key.png)
 
 ---
 
 - **Diagrama de Deploy**
 
-![alt](docs/diagrams/deploy-dev.svg)
+![alt](docs/diagrams/deploy-dev.png)
 
 ---
 
 - **Key**
 
-![alt](docs/diagrams/deploy-dev-key.svg)
+![alt](docs/diagrams/deploy-dev-key.png)
 
 ## Créditos
 
