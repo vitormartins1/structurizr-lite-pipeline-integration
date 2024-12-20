@@ -1,34 +1,28 @@
 name: Structurizr Lite Export Workflow
-
 on:
   push:
     paths:
       - 'docs/*.dsl'
       - 'docs/**/*.dsl' 
-
 jobs:
   export-diagrams:
     runs-on: ubuntu-latest
-
     services:
       structurizr:
         image: structurizr/lite:latest
         ports:
           - 8080:8080
         options: --network-alias structurizr
-
     steps:
       - name: Ajustar permissões do workspace
         run: |
           sudo chmod -R u+rwx ${{ github.workspace }} || true
           sudo chown -R $USER:$USER ${{ github.workspace }} || true
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           clean: true
-
       - name: Copia arquivos do workspace para o Structurizr Lite
         run: |
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
@@ -38,31 +32,25 @@ jobs:
           docker cp ${{ github.workspace }}/docs/.structurizr $CONTAINER_ID:/usr/local/structurizr/.structurizr
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
-
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
       - name: Instalar dependências
         run: |
           cd .github/actions/structurizr-export
           npm install
-
       - name: Exportar Diagramas
         run: |
           cd .github/actions/structurizr-export
           node export-diagrams.js http://localhost:8080/workspace/diagrams png ${{ github.workspace }}/docs/diagrams/
-
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
-
       - name: Upload Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
           path: ${{ github.workspace }}/docs/diagrams/
-
       - name: Commitar Diagramas Gerados
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
