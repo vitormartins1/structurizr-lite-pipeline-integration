@@ -11,15 +11,16 @@ const HEADLESS = true;
 const IMAGE_VIEW_TYPE = 'Image';
 
 // Constante para o diretório de saída
-const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
+// const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
 
-if (process.argv.length < 2) {
-  console.log("Usage: <structurizrUrl> <png|svg>");
+if (process.argv.length < 3) {
+  console.log("Usage: <structurizrUrl> <png|svg> <outputDir>");
   process.exit(1);
 }
 
 const url = process.argv[2];
 const format = process.argv[3];
+const outputDir = process.argv[4];
 
 if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   console.log(`The output format must be '${PNG_FORMAT}' or '${SVG_FORMAT}'.`);
@@ -109,10 +110,6 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
 
       if (actualNumberOfExports === expectedNumberOfExports) {
         console.log(" - Finished");
-        console.log(" - Closing browser");
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarde 5 segundos
-        await browser.close();
-        console.log(" - Browser closed");
       }    
     } else {
       const diagramFilename = outputDir + view.key + '.png';
@@ -135,7 +132,7 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   }
 
   console.log(" - Closing browser");
-  await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarde 5 segundos
+  await new Promise(resolve => setTimeout(resolve, 5000)); 
   await browser.close();
   console.log(" - Browser closed");
 })();
