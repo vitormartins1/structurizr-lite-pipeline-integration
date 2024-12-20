@@ -4,6 +4,8 @@ on:
     paths:
       - 'docs/*.dsl'
       - 'docs/**/*.dsl' 
+    branches-ignore:
+      - main
 jobs:
   export-diagrams:
     runs-on: ubuntu-latest
