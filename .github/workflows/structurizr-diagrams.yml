@@ -45,7 +45,7 @@ jobs:
       - name: Exportar Diagramas
         run: |
           cd .github/actions/structurizr-export
-          node export-diagrams.js http://localhost:8080/workspace/diagrams png ${{ github.workspace }}/docs/diagrams/
+          node export-diagrams.js http://localhost:8080/workspace/diagrams svg ${{ github.workspace }}/docs/diagrams/
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
       - name: Upload Diagramas
