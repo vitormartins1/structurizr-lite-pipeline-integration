@@ -65,7 +65,7 @@ jobs:
       - name: Export Structurizr Diagrams
         uses: vitormartins1/structurizr-export-action@v1
         with:
-          url: 'http://localhost:8080/workspace/diagrams'
+          structurizrUrl: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
           outputDir: '${{ github.workspace }}/docs/diagrams/'
       - name: Listar Diagramas Gerados
@@ -104,15 +104,15 @@ jobs:
 
 ## Detalhes Técnicos
 
-1. A Action utiliza o **Node.js** para executar a exportação dos diagramas com base nos arquivos `.dsl` e configurações do Structurizr Lite.
+1. A Action utiliza o **Node.js** para executar a exportação dos diagramas com base nos arquivos `.dsl` e configurações do Structurizr Lite contidas no arquivo `workspace.json` e na pasta `.structurizr`.
 2. Os diagramas gerados são salvos no diretório especificado pela variável de entrada `outputDir`.
 3. Após a geração, os diagramas são automaticamente:
-   - Comitados de volta à mesma branch do repositório.
    - Disponibilizados como artefatos para download.
+   - Comitados de volta à mesma branch do repositório.
 
 ---
 
-## Configuração para Commitar os Diagramas Gerados
+## Configuração para Commitar os Diagramas
 
 O passo **Commitar Diagramas Gerados** é responsável por comitar automaticamente os diagramas exportados na mesma branch do repositório. Para que este passo funcione corretamente, é necessário configurar o **GitHub Token** com permissões adequadas.
 
@@ -131,45 +131,23 @@ O passo **Commitar Diagramas Gerados** é responsável por comitar automaticamen
 
 ---
 
-## Exemplos de Uso
-
-### Exportando Diagramas em SVG
-
-```yaml
-      - name: Export Structurizr Diagrams
-        uses: seu-usuario/structurizr-export-action@v1
-        with:
-          url: 'http://localhost:8080/workspace/diagrams'
-          format: 'svg'
-          outputDir: '${{ github.workspace }}/docs/diagrams/'
-```
-
-### Alterando a URL do Structurizr Lite
-
-```yaml
-      - name: Export Structurizr Diagrams
-        uses: seu-usuario/structurizr-export-action@v1
-        with:
-          url: 'http://my-custom-url:8080/workspace/diagrams'
-          format: 'png'
-          outputDir: '${{ github.workspace }}/output/diagrams/'
-```
-
----
-
-## Requisitos
-
-1. **Structurizr Lite** deve estar configurado e acessível na URL fornecida.
-2. Arquivos `.dsl` devem estar localizados em diretórios dentro da pasta `docs/`.
-3. Ambiente com suporte ao **Docker**, pois a Action utiliza um container para exportar os diagramas.
-
----
-
 ## Personalização
 
 Você pode estender ou modificar esta Action para:
 - Alterar as regras de acionamento do workflow (`on.push`, `on.pull_request`, etc.).
 - Adicionar suporte a outros formatos de saída.
+- Alterar o diretório de saída.
+- Executar em combinação com outras Actions.
+- Excluir uma branch específica (Ex.: `main`)
+    ```yaml
+        on:
+        push:
+            paths:
+            - 'docs/*.dsl'
+            - 'docs/**/*.dsl'
+            branches-ignore:
+            - main
+    ```
 
 ---
 
