@@ -30,6 +30,10 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   const browser = await puppeteer.launch({ ignoreHTTPSErrors: IGNORE_HTTPS_ERRORS, headless: HEADLESS });
   const page = await browser.newPage();
 
+  // Variáveis para controle de progresso
+  let expectedNumberOfExports = 0;
+  let actualNumberOfExports = 0;
+
   // visit the diagrams page
   console.log(" - Opening " + url);
   await page.goto(url, { waitUntil: 'domcontentloaded' });
