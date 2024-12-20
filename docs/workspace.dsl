@@ -1,7 +1,7 @@
 workspace {
     model {
         sistema = softwareSystem "Sistema de Notificações" {
-            snstopic = container "MESSAGE-TOPICsaiuhausa" {
+            snstopic = container "MESSAGE-TOPIC" {
                 description "Tópico SNS usado para distribuir mensagens."
                 technology "SNS Topic"
                 tags "Amazon Web Services - Simple Notification Service Topic" "Topic" "Amazon Web Services - Simple Notification Service SNS Topic"
