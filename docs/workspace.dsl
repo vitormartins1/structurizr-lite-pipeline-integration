@@ -1,17 +1,17 @@
 workspace {
     model {
         sistema = softwareSystem "Sistema de Notificações" {
-            snstopic = container "MESSAGE-TOPICsaiuhausa" {
+            snstopic = container "MESSAGE-TOPIC" {
                 description "Tópico SNS usado para distribuir mensagens."
                 technology "SNS Topic"
                 tags "Amazon Web Services - Simple Notification Service Topic" "Topic" "Amazon Web Services - Simple Notification Service SNS Topic"
             }
-            filaSQS = container "MESSAGE-QUEUEbasygyuag " {
+            filaSQS = container "MESSAGE-QUEUE" {
                 description "Fila que recebe mensagens filtradas do tópico SNS."
                 technology "AWS SQS"
                 tags "Queue" "Amazon Web Services - Simple Queue Service Queue" "Amazon Web Services - Simple Queue Service SQS Queue"
             }
-            server = container "SERVERassasaa" {
+            server = container "SERVER" {
                 description "Servidor que encaminha mensagens"
                 technology ".NET 8"
                 tags "Amazon Web Services - Elastic Container Service Service"

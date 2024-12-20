@@ -1,100 +1,135 @@
-const STRUCTURIZR_URL = 'http://localhost:8080/workspace/diagrams';
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require('path');
 
-if (process.argv.length < 4) {
-  console.error('Usage: node export-diagrams.js <url> <png|svg>');
+const PNG_FORMAT = 'png';
+const SVG_FORMAT = 'svg';
+
+const IGNORE_HTTPS_ERRORS = true;
+const HEADLESS = true;
+
+const IMAGE_VIEW_TYPE = 'Image';
+
+if (process.argv.length < 3) {
+  console.log("Usage: <structurizrUrl> <png|svg> <outputDir>");
   process.exit(1);
 }
 
 const url = process.argv[2];
 const format = process.argv[3];
-const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
+const outputDir = process.argv[4];
 
-const http = require('http');
+if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
+  console.log(`The output format must be '${PNG_FORMAT}' or '${SVG_FORMAT}'.`);
+  process.exit(1);
+}
 
 (async () => {
-  console.log('Iniciando exportação de diagramas...');
-  try {
-    // Criar diretório se não existir
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    console.log(`Diagramas serão exportados para: ${outputDir}`);
+  const browser = await puppeteer.launch({ ignoreHTTPSErrors: IGNORE_HTTPS_ERRORS, headless: HEADLESS });
+  const page = await browser.newPage();
 
-    const browser = await puppeteer.launch({
-      headless: "new", // Nova implementação headless
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-popup-blocking" // Permitir popups
-      ],
-    });
-    
-    const page = await browser.newPage();
+  // Variáveis para controle de progresso
+  let expectedNumberOfExports = 0;
+  let actualNumberOfExports = 0;
 
-    // Permitir popups para a página
-    await page.setViewport({ width: 1280, height: 720 });
-    await page.evaluateOnNewDocument(() => {
-      window.open = function (url) {
-        const popup = document.createElement('a');
-        popup.href = url;
-        popup.target = '_blank';
-        popup.click();
-      };
-    });
-
-    console.log(`Acessando Structurizr Lite em: ${url}`);
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-
-    console.log('Aguardando o carregamento do Structurizr...');
-    try {
-      await page.waitForFunction(() => {
-        return window.structurizr && window.structurizr.scripting && typeof window.structurizr.scripting.getViews === 'function';
-      }, { timeout: 120000 }); // Timeout aumentado para 2 minutos
-      console.log('Structurizr carregado com sucesso.');
-    } catch (error) {
-      console.error('Timeout ao aguardar o carregamento do Structurizr.');
-      const isStructurizrLoaded = await page.evaluate(() => {
-        return !!(window.structurizr && window.structurizr.scripting);
+  // visit the diagrams page
+  console.log(" - Opening " + url);
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction('structurizr.scripting && structurizr.scripting.isDiagramRendered() === true');
+  
+  if (format === PNG_FORMAT) {
+    // add a function to the page to save the generated PNG images
+    await page.exposeFunction('savePNG', (content, filename) => {
+      console.log(" - " + filename);
+      content = content.replace(/^data:image\/png;base64,/, "");
+      fs.writeFile(filename, content, 'base64', function (err) {
+        if (err) throw err;
       });
-      console.log('Structurizr estado atual:', isStructurizrLoaded ? 'Carregado' : 'Não carregado');
-      throw error;
-    }
+      
+      actualNumberOfExports++;
 
-    console.log('Structurizr carregado com sucesso.');
-    const views = await page.evaluate(() => {
-      return structurizr.scripting.getViews();
+      if (actualNumberOfExports === expectedNumberOfExports) {
+        console.log(" - Finished");
+      }
     });
+  }
 
-    console.log(`Encontrados ${views.length} diagramas.`);
+  // get the array of views
+  const views = await page.evaluate(() => {
+    return structurizr.scripting.getViews();
+  });
 
-    for (const view of views) {
-      try {
-        const filename = `${outputDir}${view.key}.${format}`;
-        console.log(`Exportando diagrama para: ${filename}`);
-        if (format === 'png') {
-          const buffer = await page.evaluate((key) => {
-            return structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true });
-          }, view.key);
-          const decodedBuffer = Buffer.from(buffer, 'base64');
-          fs.writeFileSync(filename, decodedBuffer);
-          console.log(`Buffer length para ${view.key}:`, buffer.length);
-        } else if (format === 'svg') {
-          const svg = await page.evaluate(() => {
-            return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
-          });
-          fs.writeFileSync(filename, svg);
-        }
-      } catch (error) {
-        console.error(`Erro ao exportar o diagrama ${view.key}:`, error);
+  views.forEach(function(view) {
+    if (view.type === IMAGE_VIEW_TYPE) {
+      expectedNumberOfExports++; // diagram only
+    } else {
+      expectedNumberOfExports++; // diagram
+      expectedNumberOfExports++; // key
+    }
+  });
+
+  console.log(" - Starting export");
+
+  for (var i = 0; i < views.length; i++) {
+    const view = views[i];
+
+    await page.evaluate((view) => {
+      structurizr.scripting.changeView(view.key);
+    }, view);
+
+    await page.waitForFunction('structurizr.scripting.isDiagramRendered() === true');
+
+    if (format === SVG_FORMAT) {
+      const diagramFilename = outputDir + view.key + '.svg';
+      const diagramKeyFilename = outputDir + view.key + '-key.svg'
+
+      var svgForDiagram = await page.evaluate(() => {
+        return structurizr.scripting.exportCurrentDiagramToSVG({ includeMetadata: true });
+      });
+    
+      console.log(" - " + diagramFilename);
+      fs.writeFile(diagramFilename, svgForDiagram, function (err) {
+        if (err) throw err;
+      });
+      actualNumberOfExports++;
+    
+      if (view.type !== IMAGE_VIEW_TYPE) {
+        var svgForKey = await page.evaluate(() => {
+          return structurizr.scripting.exportCurrentDiagramKeyToSVG();
+        });
+      
+        console.log(" - " + diagramKeyFilename);
+        fs.writeFile(diagramKeyFilename, svgForKey, function (err) {
+          if (err) throw err;
+        });
+        actualNumberOfExports++;
+      }
+
+      if (actualNumberOfExports === expectedNumberOfExports) {
+        console.log(" - Finished");
+      }    
+    } else {
+      const diagramFilename = outputDir + view.key + '.png';
+      const diagramKeyFilename = outputDir + view.key + '-key.png'
+
+      page.evaluate((diagramFilename) => {
+        structurizr.scripting.exportCurrentDiagramToPNG({ includeMetadata: true, crop: false }, function(png) {
+          window.savePNG(png, diagramFilename);
+        })
+      }, diagramFilename);
+
+      if (view.type !== IMAGE_VIEW_TYPE) {
+        page.evaluate((diagramKeyFilename) => {
+          structurizr.scripting.exportCurrentDiagramKeyToPNG(function(png) {
+            window.savePNG(png, diagramKeyFilename);
+          })
+        }, diagramKeyFilename);
       }
     }
-
-    console.log('Exportação concluída.');
-    await browser.close();
-  } catch (error) {
-    console.error('Erro durante a exportação:', error);
-    process.exit(1);
   }
+
+  console.log(" - Closing browser");
+  await new Promise(resolve => setTimeout(resolve, 5000)); 
+  await browser.close();
+  console.log(" - Browser closed");
 })();
