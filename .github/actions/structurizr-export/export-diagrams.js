@@ -134,6 +134,7 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
     }
   }
 
-  // console.log(" - closing browser");
+  console.log(" - closing browser");
   // await browser.close();
+  return;
 })();
