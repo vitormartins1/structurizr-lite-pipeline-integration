@@ -1,10 +1,10 @@
-name: Structurizr Export Workflow
+name: Structurizr Lite Export Workflow
 
-# on: [push, pull_request]
 on:
   push:
     paths:
       - 'docs/*.dsl'
+      - 'docs/**/*.dsl' 
 
 jobs:
   export-diagrams:
@@ -15,8 +15,6 @@ jobs:
         image: structurizr/lite:latest
         ports:
           - 8080:8080
-        # volumes:
-        #   - ${{ github.workspace }}/docs:/usr/local/structurizr:rw
         options: --network-alias structurizr
 
     steps:
@@ -55,11 +53,6 @@ jobs:
         run: |
           cd .github/actions/structurizr-export
           node export-diagrams.js http://localhost:8080/workspace/diagrams png
-
-      - name: Verify files in Structurizr container
-        run: |
-          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
-          docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
 
       - name: Verificar arquivos montados no Structurizr
         run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr/images

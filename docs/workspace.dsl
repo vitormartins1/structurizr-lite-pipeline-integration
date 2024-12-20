@@ -11,7 +11,7 @@ workspace {
                 technology "AWS SQS"
                 tags "Queue" "Amazon Web Services - Simple Queue Service Queue" "Amazon Web Services - Simple Queue Service SQS Queue"
             }
-            server = container "SERVERassasaa" {
+            server = container "SERVER" {
                 description "Servidor que encaminha mensagens"
                 technology ".NET 8"
                 tags "Amazon Web Services - Elastic Container Service Service"
