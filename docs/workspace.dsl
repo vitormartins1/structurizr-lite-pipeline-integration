@@ -34,11 +34,6 @@ workspace {
                             tags "Amazon Web Services - Key Management Service"
                         }
 
-                        // deploymentNode "Amazon ECS" {
-                        //     tags "Amazon Web Services - Elastic Container Service"
-                        //     containerInstance server
-                        // }
-
                         deploymentNode "Amazon SNS" {
                             tags "Amazon Web Services - Simple Notification Service SNS"
                             containerInstance snstopic
