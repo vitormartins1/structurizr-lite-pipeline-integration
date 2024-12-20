@@ -2,8 +2,6 @@
 
 Esta **GitHub Action** permite exportar diagramas automaticamente a partir de arquivos **Structurizr DSL** no repositório. Ela integra a geração de diagramas arquiteturais ao fluxo de CI/CD, garantindo que as representações visuais estejam sempre atualizadas. A exportação é realizada utilizando o Structurizr Lite como serviço no GitHub Actions.
 
----
-
 ## Recursos
 
 - Exportação automática de diagramas **Structurizr DSL** do repositório.
@@ -12,8 +10,6 @@ Esta **GitHub Action** permite exportar diagramas automaticamente a partir de ar
 - Exportação de diagramas principais e de chaves (metadata).
 - Commit automático dos diagramas gerados na mesma branch.
 - Compatível com repositórios que utilizam arquivos `.dsl` para modelagem de diagramas.
-
----
 
 ## Como Usar
 
@@ -88,8 +84,6 @@ jobs:
           git push origin ${{ github.ref_name }}
 ```
 
----
-
 ## Entradas
 
 ### Variáveis de Entrada
@@ -100,8 +94,6 @@ jobs:
 | `format`   | Formato dos diagramas exportados (`PNG`/`SVG`) | `'png'`                           | Sim         |
 | `outputDir`| Diretório de saída onde os diagramas serão salvos | `'${{ github.workspace }}/docs/diagrams/'`              | Sim         |
 
----
-
 ## Detalhes Técnicos
 
 1. A Action utiliza o **Node.js** para executar a exportação dos diagramas com base nos arquivos `.dsl` e configurações do Structurizr Lite contidas no arquivo `workspace.json` e na pasta `.structurizr`.
@@ -109,8 +101,6 @@ jobs:
 3. Após a geração, os diagramas são automaticamente:
    - Disponibilizados como artefatos para download.
    - Comitados de volta à mesma branch do repositório.
-
----
 
 ## Configuração para Commitar os Diagramas
 
@@ -128,8 +118,6 @@ O passo **Commitar Diagramas Gerados** é responsável por comitar automaticamen
 2. **Utilizar o Token Configurado no Workflow:**
    - O GitHub automaticamente disponibiliza o token `GITHUB_TOKEN` para o workflow.
    - Este token é utilizado no passo **Commitar Diagramas Gerados** para autenticar as operações de commit e push.
-
----
 
 ## Personalização
 
@@ -149,13 +137,9 @@ Você pode estender ou modificar esta Action para:
             - main
     ```
 
----
-
 ## Diagramas Gerados
 
 Exemplo de diagramas gerados pela Action.
-
----
 
 - **Diagrama de Container**
 
@@ -179,15 +163,11 @@ Exemplo de diagramas gerados pela Action.
 
 ![alt](docs/diagrams/deploy-dev-key.png)
 
----
-
 ## Créditos
 
 Esta Action utiliza como base a abordagem de exportação descrita no repositório oficial do [Structurizr Puppeteer](https://github.com/structurizr/puppeteer). Agradecemos aos mantenedores e colaboradores deste projeto por fornecerem uma solução eficiente e reutilizável para exportação de diagramas.
 
 https://github.com/structurizr/puppeteer
-
----
 
 ## Licença
 
