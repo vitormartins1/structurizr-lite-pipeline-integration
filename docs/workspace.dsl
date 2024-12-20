@@ -72,7 +72,7 @@ workspace {
             include snstopic
             include filaSQS
             include server
-            autoLayout
+            autoLayout lr
         }
         deployment * live "deploy-dev"{
             include *
