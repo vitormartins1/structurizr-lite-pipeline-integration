@@ -52,7 +52,6 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
 
       if (actualNumberOfExports === expectedNumberOfExports) {
         console.log(" - Finished");
-        // browser.close(); // Use await para garantir que o fechamento do navegador seja sincronizado
       }
     });
   }
@@ -72,8 +71,6 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   });
 
   console.log(" - Starting export");
-  // const diagramFilename = path.join(outputDir, `${view.key}.${format}`);
-  // const diagramKeyFilename = path.join(outputDir, `${view.key}-key.${format}`);
 
   for (var i = 0; i < views.length; i++) {
     const view = views[i];
@@ -112,7 +109,10 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
 
       if (actualNumberOfExports === expectedNumberOfExports) {
         console.log(" - Finished");
-        browser.close();
+        console.log(" - Closing browser");
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarde 5 segundos
+        await browser.close();
+        console.log(" - Browser closed");
       }    
     } else {
       const diagramFilename = outputDir + view.key + '.png';
@@ -134,9 +134,8 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
     }
   }
 
-  console.log(" - closing browser");
-  // Aguarde alguns segundos antes de fechar o navegador
+  console.log(" - Closing browser");
   await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarde 5 segundos
   await browser.close();
-  console.log(" - browser closed");
+  console.log(" - Browser closed");
 })();

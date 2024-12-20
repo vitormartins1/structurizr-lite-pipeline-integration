@@ -1,6 +1,10 @@
 name: Structurizr Export Workflow
 
-on: [push, pull_request]
+# on: [push, pull_request]
+on:
+  push:
+    paths:
+      - './docs/*.dsl'
 
 jobs:
   export-diagrams:
@@ -34,14 +38,8 @@ jobs:
           docker cp ${{ github.workspace }}/docs/styles.dsl $CONTAINER_ID:/usr/local/structurizr/styles.dsl
           docker cp ${{ github.workspace }}/docs/workspace.json $CONTAINER_ID:/usr/local/structurizr/workspace.json
           docker cp ${{ github.workspace }}/docs/.structurizr $CONTAINER_ID:/usr/local/structurizr/.structurizr
-
-      # - name: Verify files in Structurizr container
-      #   run: |
-      #     CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
-      #     docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
-
-      # - name: Verificar arquivos montados no Structurizr
-      #   run: docker exec $(docker ps --filter "name=structurizr" --format "{{.ID}}") ls -la /usr/local/structurizr
+          CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
+          docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
@@ -74,3 +72,15 @@ jobs:
         with:
           name: structurizr-diagrams
           path: ${{ github.workspace }}/docs/diagrams/
+
+      - name: Commitar Diagramas Gerados
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+          cd ${{ github.workspace }}
+          git add docs/diagrams/
+          git commit -m "Atualizando diagramas gerados automaticamente"
+          git push origin ${{ github.ref_name }}
