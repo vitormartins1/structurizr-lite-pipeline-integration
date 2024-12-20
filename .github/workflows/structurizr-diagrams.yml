@@ -4,7 +4,7 @@ name: Structurizr Export Workflow
 on:
   push:
     paths:
-      - './docs/*.dsl'
+      - './docs/**.dsl'
 
 jobs:
   export-diagrams:
