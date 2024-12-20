@@ -135,6 +135,8 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   }
 
   console.log(" - closing browser");
-  // await browser.close();
-  return;
+  // Aguarde alguns segundos antes de fechar o navegador
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Aguarde 5 segundos
+  await browser.close();
+  console.log(" - browser closed");
 })();
