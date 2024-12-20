@@ -128,12 +128,12 @@ Você pode estender ou modificar esta Action para:
 - Executar em combinação com outras Actions.
 - Excluir uma branch específica (Ex.: `main`)
     ```yaml
-        on:
-        push:
-            paths:
+    on:
+    push:
+        paths:
             - 'docs/*.dsl'
             - 'docs/**/*.dsl'
-            branches-ignore:
+        branches-ignore:
             - main
     ```
 
