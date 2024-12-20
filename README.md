@@ -151,6 +151,36 @@ Você pode estender ou modificar esta Action para:
 
 ---
 
+## Diagramas Gerados
+
+Exemplo de diagramas gerados pela Action.
+
+---
+
+- **Diagrama de Container**
+
+![alt](docs/diagrams/sns-com-sqs.png)
+
+---
+
+- **Key**
+
+![alt](docs/diagrams/sns-com-sqs-key.png)
+
+---
+
+- **Diagrama de Deploy**
+
+![alt](docs/diagrams/deploy-dev.png)
+
+---
+
+- **Key**
+
+![alt](docs/diagrams/deploy-dev-key.png)
+
+---
+
 ## Créditos
 
 Esta Action utiliza como base a abordagem de exportação descrita no repositório oficial do [Structurizr Puppeteer](https://github.com/structurizr/puppeteer). Agradecemos aos mantenedores e colaboradores deste projeto por fornecerem uma solução eficiente e reutilizável para exportação de diagramas.
