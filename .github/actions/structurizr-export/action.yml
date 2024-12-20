@@ -13,6 +13,7 @@ inputs:
     default: 'png'
   outputDir:
     description: 'Diretório de saída dos diagramas'
+    required: true
 
 runs:
   using: 'node16'

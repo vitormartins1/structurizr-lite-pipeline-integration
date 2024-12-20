@@ -10,9 +10,6 @@ const HEADLESS = true;
 
 const IMAGE_VIEW_TYPE = 'Image';
 
-// Constante para o diretório de saída
-// const outputDir = '/home/runner/work/structurizr-pipeline-integration/structurizr-pipeline-integration/docs/diagrams/';
-
 if (process.argv.length < 3) {
   console.log("Usage: <structurizrUrl> <png|svg> <outputDir>");
   process.exit(1);
