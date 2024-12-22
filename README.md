@@ -1,4 +1,4 @@
-# Structurizr Diagram Export Action
+# Structurizr Lite Puppeteer Integration Action
 
 Esta **GitHub Action** permite exportar diagramas automaticamente a partir de arquivos **Structurizr DSL** no repositório. Ela integra a geração de diagramas arquiteturais ao fluxo de CI/CD, garantindo que as representações visuais estejam sempre atualizadas. A exportação é realizada utilizando o Structurizr Lite como serviço no GitHub Actions.
 

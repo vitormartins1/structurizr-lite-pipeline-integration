@@ -4,20 +4,19 @@ const path = require('path');
 
 const PNG_FORMAT = 'png';
 const SVG_FORMAT = 'svg';
-
 const IGNORE_HTTPS_ERRORS = true;
 const HEADLESS = true;
-
 const IMAGE_VIEW_TYPE = 'Image';
 
-if (process.argv.length < 3) {
-  console.log("Usage: <structurizrUrl> <png|svg> <outputDir>");
+const url = process.env.INPUT_STRUCTURIZR_URL;
+const format = process.env.INPUT_FORMAT;
+const outputDir = process.env.INPUT_OUTPUT_DIR;
+
+if (!url || !format || !outputDir) {
+  console.error("Erro: Parâmetros obrigatórios não foram fornecidos.");
+  console.log("Certifique-se de fornecer 'structurizr_url', 'format', e 'output_dir'.");
   process.exit(1);
 }
-
-const url = process.argv[2];
-const format = process.argv[3];
-const outputDir = process.argv[4];
 
 if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   console.log(`The output format must be '${PNG_FORMAT}' or '${SVG_FORMAT}'.`);
