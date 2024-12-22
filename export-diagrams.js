@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
+import puppeteer from 'puppeteer';
+import fs from 'fs';
+import path from 'path';
 
 const PNG_FORMAT = 'png';
 const SVG_FORMAT = 'svg';
@@ -11,6 +11,11 @@ const IMAGE_VIEW_TYPE = 'Image';
 const url = process.env.INPUT_STRUCTURIZR_URL;
 const format = process.env.INPUT_FORMAT;
 const outputDir = process.env.INPUT_OUTPUT_DIR;
+
+if (!fs.existsSync(outputDir)) {
+  console.error(`Output directory does not exist: ${outputDir}`);
+  process.exit(1);
+}
 
 if (!url || !format || !outputDir) {
   console.error("Error: Required parameters were not provided.");
