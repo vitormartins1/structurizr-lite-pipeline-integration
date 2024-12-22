@@ -66,12 +66,12 @@ jobs:
           outputDir: '${{ github.workspace }}/docs/diagrams/'
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
-      - name: Upload Diagramas
+      - name: Upload de Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
           path: ${{ github.workspace }}/docs/diagrams/
-      - name: Commitar Diagramas Gerados
+      - name: Comitar Diagramas Gerados
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -100,26 +100,27 @@ jobs:
    - Disponibilizados como artefatos para download.
    - Comitados de volta à mesma branch do repositório.
 
-## Configuração para Commitar os Diagramas
+## Configuração para Comitar os Diagramas
 
-O passo **Commitar Diagramas Gerados** é responsável por comitar automaticamente os diagramas exportados na mesma branch do repositório. Para que este passo funcione corretamente, é necessário configurar o **GitHub Token** com permissões adequadas.
+O passo **Comitar Diagramas Gerados** é responsável por comitar automaticamente os diagramas exportados na mesma branch do repositório. Para que este passo funcione corretamente, é necessário configurar o **GitHub Token** com permissões adequadas.
 
-### Como Configurar o GitHub Token para Ação
+### Como Configurar o GitHub Token
 
 1. **Garantir Permissões de Leitura e Escrita:**
    - Vá para a página do repositório no GitHub.
    - Acesse a aba **Settings** (Configurações).
    - No menu lateral, selecione **Actions** > **General**.
-   - Na seção **Workflow permissions**, selecione a opção **Read and write permissions** (Permissões de leitura e escrita).
+   - Na seção **Workflow permissions**, selecione a opção **Read and write permissions**.
    - Salve as alterações clicando em **Save**.
 
 2. **Utilizar o Token Configurado no Workflow:**
    - O GitHub automaticamente disponibiliza o token `GITHUB_TOKEN` para o workflow.
-   - Este token é utilizado no passo **Commitar Diagramas Gerados** para autenticar as operações de commit e push.
+   - Este token é utilizado no passo **Comitar Diagramas Gerados** para autenticar as operações de commit e push.
 
 ## Personalização
 
 Você pode estender ou modificar esta Action para:
+
 - Alterar as regras de acionamento do workflow (`on.push`, `on.pull_request`, etc.).
 - Adicionar suporte a outros formatos de saída.
 - Alterar o diretório de saída.
@@ -174,5 +175,4 @@ Este projeto está licenciado sob a licença **MIT**. Sinta-se livre para contri
 <!-- # structurizr-pipeline-integration
  
 docker run --rm -p 8080:8080 -v "/Volumes/Transcend/structurizr-pipeline-integration/docs":/usr/local/structurizr structurizr/lite -->
-
 
