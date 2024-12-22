@@ -13,10 +13,9 @@ inputs:
     description: 'Output directory for the diagrams'
     required: true
 runs:
-  using: 'node16'
+  using: 'node18'
+  pre: npm install
   main: 'export-diagrams.js'
-  # pre: |
-  #   npm install
 branding:
   icon: "upload-cloud"
   color: "blue"
