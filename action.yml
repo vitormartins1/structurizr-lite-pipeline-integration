@@ -1,16 +1,16 @@
 name: Structurizr Export Action
-description: Exporta diagramas Structurizr para PNG usando Puppeteer. Depende do Structurizr Lite configurado no workflow.
+description: Exports Structurizr diagrams to PNG or SVG using Puppeteer. Depends on Structurizr Lite configured in the workflow.
 author: 'Vitor Martins de SantAnna'
 
 inputs:
   structurizrUrl:
-    description: 'URL do workspace no Structurizr (padrão: http://localhost:8080/workspace/diagrams)'
+    description: 'URL of the workspace in Structurizr (default: http://localhost:8080/workspace/diagrams)'
     required: true
   format:
-    description: 'Formato de saída dos diagramas (png ou svg)'
+    description: 'Output format of the diagrams (png or svg)'
     required: true
   outputDir:
-    description: 'Diretório de saída dos diagramas'
+    description: 'Output directory for the diagrams'
     required: true
 runs:
   using: 'node16'

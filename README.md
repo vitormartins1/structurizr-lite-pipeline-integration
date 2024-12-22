@@ -1,19 +1,19 @@
 # Structurizr Lite Puppeteer Integration Action
 
-Esta **GitHub Action** permite exportar diagramas automaticamente a partir de arquivos **Structurizr DSL** no repositório. Ela integra a geração de diagramas arquiteturais ao fluxo de CI/CD, garantindo que as representações visuais estejam sempre atualizadas. A exportação é realizada utilizando o Structurizr Lite como serviço no GitHub Actions.
+This **GitHub Action** enables the automatic export of diagrams from **Structurizr DSL** files in the repository. It integrates architectural diagram generation into the CI/CD pipeline, ensuring that visual representations are always up-to-date. The export is performed using Structurizr Lite as a service in GitHub Actions.
 
-## Recursos
+## Features
 
-- Exportação automática de diagramas **Structurizr DSL** do repositório.
-- Suporte a formatos de saída: `PNG` e `SVG`.
-- Suporte a configuração de diretório de saída personalizado.
-- Exportação de diagramas principais e de chaves (metadata).
-- Commit automático dos diagramas gerados na mesma branch.
-- Compatível com repositórios que utilizam arquivos `.dsl` para modelagem de diagramas.
+- Automatic export of diagrams from **Structurizr DSL** files in the repository.
+- Support for output formats: `PNG` and `SVG`.
+- Customizable output directory configuration.
+- Export of primary diagrams and keys (metadata).
+- Automatic commit of generated diagrams to the same branch.
+- Compatible with repositories using `.dsl` files for diagram modeling.
 
-## Como Usar
+## Usage
 
-Para utilizar esta Action, adicione o seguinte workflow ao seu repositório:
+To use this Action, add the following workflow to your repository:
 
 ```yaml
 name: Structurizr Lite Export Workflow
@@ -76,48 +76,48 @@ jobs:
           git push origin ${{ github.ref_name }}
 ```
 
-## Entradas
+## Inputs
 
-| Nome             | Descrição                                         | Obrigatório |
+| Name             | Description                                         | Required |
 |------------------|---------------------------------------------------|-------------|
-| `structurizrUrl` | URL do Structurizr Lite para exportação           | Sim         |
-| `format`         | Formato dos diagramas exportados (`PNG`/`SVG`)    | Sim         |
-| `outputDir`      | Diretório de saída onde os diagramas serão salvos | Sim         |
+| `structurizrUrl` | Structurizr Lite URL for export                   | Yes         |
+| `format`         | Exported diagrams format (`PNG`/`SVG`)            | Yes         |
+| `outputDir`      | Output directory where the diagrams will be saved | Yes         |
 
-## Detalhes Técnicos
+## Technical Details
 
-1. A Action utiliza o **Node.js** para executar a exportação dos diagramas com base nos arquivos `.dsl` e configurações do Structurizr Lite contidas no arquivo `workspace.json` e na pasta `.structurizr`.
-2. Os diagramas gerados são salvos no diretório especificado pela variável de entrada `outputDir`.
-3. Após a geração, os diagramas são automaticamente:
-   - Disponibilizados como artefatos para download.
-   - Comitados de volta à mesma branch do repositório.
+1. The Action uses **Node.js** to export diagrams based on `.dsl` files and Structurizr Lite configurations contained in the `workspace.json` file and the `.structurizr` folder.
+2. The generated diagrams are saved in the directory specified by the `outputDir` input variable.
+3. After generation, the diagrams are automatically:
+   - Made available as artifacts for download.
+   - Committed back to the same repository branch.
 
-## Configuração para Comitar os Diagramas
+## Configuring to Commit Diagrams
 
-O passo **Comitar Diagramas Gerados** é responsável por comitar automaticamente os diagramas exportados na mesma branch do repositório. Para que este passo funcione corretamente, é necessário configurar o **GitHub Token** com permissões adequadas.
+The **Commit Generated Diagrams** step is responsible for automatically committing the exported diagrams to the same branch in the repository. To ensure this step works correctly, you must configure the **GitHub Token** with appropriate permissions.
 
-### Como Configurar o GitHub Token
+### How to Configure the GitHub Token
 
-1. **Garantir Permissões de Leitura e Escrita:**
-   - Vá para a página do repositório no GitHub.
-   - Acesse a aba **Settings** (Configurações).
-   - No menu lateral, selecione **Actions** > **General**.
-   - Na seção **Workflow permissions**, selecione a opção **Read and write permissions**.
-   - Salve as alterações clicando em **Save**.
+1. **Ensure Read and Write Permissions:**
+   - Navigate to the repository's page on GitHub.
+   - Go to the **Settings** tab.
+   - In the sidebar, select **Actions** > **General**.
+   - In the **Workflow permissions** section, select **Read and write permissions**.
+   - Save changes by clicking **Save**.
 
-2. **Utilizar o Token Configurado no Workflow:**
-   - O GitHub automaticamente disponibiliza o token `GITHUB_TOKEN` para o workflow.
-   - Este token é utilizado no passo **Comitar Diagramas Gerados** para autenticar as operações de commit e push.
+2. **Use the Configured Token in the Workflow:**
+   - GitHub automatically provides the `GITHUB_TOKEN` for the workflow.
+   - This token is used in the **Commit Generated Diagrams** step to authenticate commit and push operations.
 
-## Personalização
+## Customization
 
-Você pode estender ou modificar esta Action para:
+You can extend or modify this Action to:
 
-- Alterar as regras de acionamento do workflow (`on.push`, `on.pull_request`, etc.).
-- Adicionar suporte a outros formatos de saída.
-- Alterar o diretório de saída.
-- Executar em combinação com outras Actions.
-- Excluir uma branch específica (Ex.: `main`)
+- Change the workflow triggering rules (`on.push`, `on.pull_request`, etc.).
+- Add support for other output formats.
+- Change the output directory.
+- Combine it with other Actions.
+- Exclude a specific branch (e.g., `main`).
     ```yaml
     on:
     push:
@@ -154,15 +154,11 @@ Exemplo de diagramas gerados pela Action.
 
 ![alt](docs/diagrams/deploy-dev-key.png) -->
 
-## Créditos
+## Credits
 
-Esta Action utiliza como base a abordagem de exportação descrita no repositório oficial do [Structurizr Puppeteer](https://github.com/structurizr/puppeteer). Agradecemos aos mantenedores e colaboradores deste projeto por fornecerem uma solução eficiente e reutilizável para exportação de diagramas.
+This Action is based on the export approach described in the official [Structurizr Puppeteer](https://github.com/structurizr/puppeteer) repository. We thank the maintainers and contributors of this project for providing an efficient and reusable solution for diagram export.
 
 https://github.com/structurizr/puppeteer
-
-## Licença
-
-Este projeto está licenciado sob a licença **MIT**. Sinta-se livre para contribuir e reportar problemas via **Issues** no repositório.
 
 <!-- # structurizr-pipeline-integration
  
