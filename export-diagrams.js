@@ -13,8 +13,8 @@ const format = process.env.INPUT_FORMAT;
 const outputDir = process.env.INPUT_OUTPUT_DIR;
 
 if (!url || !format || !outputDir) {
-  console.error("Erro: Parâmetros obrigatórios não foram fornecidos.");
-  console.log("Certifique-se de fornecer 'structurizr_url', 'format', e 'output_dir'.");
+  console.error("Error: Required parameters were not provided.");
+  console.log("Make sure to provide 'structurizr_url', 'format', and 'output_dir'.");
   process.exit(1);
 }
 

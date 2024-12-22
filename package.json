@@ -1,7 +1,7 @@
 {
   "name": "structurizr-lite-export",
   "version": "1.0.0",
-  "description": "Exporta diagramas Structurizr para formato de imagem usando Puppeteer",
+  "description": "Exports Structurizr diagrams to image format using Puppeteer",
   "main": "export-diagrams.js",
   "scripts": {
     "start": "node export-diagrams.js"
