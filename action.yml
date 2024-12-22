@@ -6,15 +6,15 @@ inputs:
   structurizrUrl:
     description: 'URL do workspace no Structurizr (padrão: http://localhost:8080/workspace/diagrams)'
     required: true
-    default: 'http://localhost:8080/workspace/diagrams'
   format:
     description: 'Formato de saída dos diagramas (png ou svg)'
     required: true
-    default: 'png'
   outputDir:
     description: 'Diretório de saída dos diagramas'
     required: true
-
 runs:
   using: 'node16'
   main: 'export-diagrams.js'
+branding:
+  icon: "upload-cloud"
+  color: "blue"
