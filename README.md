@@ -50,16 +50,8 @@ jobs:
           docker cp ${{ github.workspace }}/docs/.structurizr $CONTAINER_ID:/usr/local/structurizr/.structurizr
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Instalar dependências
-        run: |
-          cd .github/actions/structurizr-export
-          npm install
       - name: Export Structurizr Diagrams
-        uses: vitormartins1/structurizr-lite-pipeline-integration@v1
+        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1
         with:
           structurizrUrl: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
@@ -135,7 +127,7 @@ Você pode estender ou modificar esta Action para:
         branches-ignore:
             - main
     ```
-
+<!-- 
 ## Diagramas Gerados
 
 Exemplo de diagramas gerados pela Action.
@@ -160,7 +152,7 @@ Exemplo de diagramas gerados pela Action.
 
 - **Key**
 
-![alt](docs/diagrams/deploy-dev-key.png)
+![alt](docs/diagrams/deploy-dev-key.png) -->
 
 ## Créditos
 
