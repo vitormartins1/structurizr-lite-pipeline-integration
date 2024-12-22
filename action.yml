@@ -24,7 +24,6 @@ runs:
     echo "Listing Action-specific folder contents:"
     ls -la /home/runner/work/_actions
   main: 'export-diagrams.js'
-  main: 'export-diagrams.js'
 branding:
   icon: "upload-cloud"
   color: "blue"
