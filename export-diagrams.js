@@ -8,7 +8,7 @@ const IGNORE_HTTPS_ERRORS = true;
 const HEADLESS = true;
 const IMAGE_VIEW_TYPE = 'Image';
 
-const structurizrUrl = process.env.STRUCTURIZR_URL;
+const url = process.env.STRUCTURIZR_URL;
 const format = process.env.FORMAT;
 const outputDir = process.env.OUTPUT_DIR;
 
