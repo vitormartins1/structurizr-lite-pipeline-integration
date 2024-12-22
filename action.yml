@@ -3,13 +3,13 @@ description: Exports Structurizr diagrams to PNG or SVG using Puppeteer. Depends
 author: 'Vitor Martins de SantAnna'
 
 inputs:
-  structurizrUrl:
+  structurizr_url:
     description: 'URL of the workspace in Structurizr (default: http://localhost:8080/workspace/diagrams)'
     required: true
   format:
     description: 'Output format of the diagrams (png or svg)'
     required: true
-  outputDir:
+  output_dir:
     description: 'Output directory for the diagrams'
     required: true
 runs:

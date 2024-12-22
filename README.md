@@ -53,9 +53,9 @@ jobs:
       - name: Export Structurizr Diagrams
         uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.1
         with:
-          structurizrUrl: 'http://localhost:8080/workspace/diagrams'
+          structurizr_url: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
-          outputDir: '${{ github.workspace }}/docs/diagrams/'
+          output_dir: '${{ github.workspace }}/docs/diagrams/'
       - name: List Generated Diagrams
         run: ls -la ${{ github.workspace }}/docs/diagrams
       - name: Upload Diagrams
