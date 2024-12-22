@@ -14,4 +14,4 @@ RUN npm install
 # RUN npx puppeteer install
 # RUN npx puppeteer browsers install chrome
 
-CMD ["node", "action/export-diagrams.js"]
+CMD ["node", "/action/export-diagrams.js"]
