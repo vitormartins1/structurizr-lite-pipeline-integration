@@ -86,8 +86,6 @@ jobs:
 
 ## Entradas
 
-### Variáveis de Entrada
-
 | Nome             | Descrição                                         | Obrigatório |
 |------------------|---------------------------------------------------|-------------|
 | `structurizrUrl` | URL do Structurizr Lite para exportação           | Sim         |
