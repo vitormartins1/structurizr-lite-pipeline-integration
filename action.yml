@@ -15,6 +15,7 @@ inputs:
 runs:
   using: 'node16'
   pre: |
+    #!/bin/bash
     echo "Listing current directory contents:"
     ls -la
     echo "Listing parent directory contents:"
