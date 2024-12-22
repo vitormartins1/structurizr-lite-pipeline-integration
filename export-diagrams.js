@@ -8,9 +8,18 @@ const IGNORE_HTTPS_ERRORS = true;
 const HEADLESS = true;
 const IMAGE_VIEW_TYPE = 'Image';
 
-const url = process.env.INPUT_STRUCTURIZR_URL;
-const format = process.env.INPUT_FORMAT;
-const outputDir = process.env.INPUT_OUTPUT_DIR;
+const structurizrUrl = process.env.STRUCTURIZR_URL;
+const format = process.env.FORMAT;
+const outputDir = process.env.OUTPUT_DIR;
+
+console.log("URL:", url);
+console.log("Format:", format);
+console.log("Output Directory:", outputDir);
+
+if (!url || !format || !outputDir) {
+  console.error("Error: Missing required parameters.");
+  process.exit(1);
+}
 
 if (!fs.existsSync(outputDir)) {
   console.error(`Output directory does not exist: ${outputDir}`);

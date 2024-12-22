@@ -16,10 +16,10 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.structurizr_url }}
-    - ${{ inputs.format }}
-    - ${{ inputs.output_dir }}
+  env:
+    STRUCTURIZR_URL: ${{ inputs.structurizr_url }}
+    FORMAT: ${{ inputs.format }}
+    OUTPUT_DIR: ${{ inputs.output_dir }}
 
 branding:
   icon: "upload-cloud"
