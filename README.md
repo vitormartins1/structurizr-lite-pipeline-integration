@@ -88,11 +88,11 @@ jobs:
 
 ### Variáveis de Entrada
 
-| Nome       | Descrição                                    | Padrão                            | Obrigatório |
-|------------|----------------------------------------------|------------------------------------|-------------|
-| `url`      | URL do Structurizr Lite para exportação      | `'http://localhost:8080/workspace/diagrams'` | Sim         |
-| `format`   | Formato dos diagramas exportados (`PNG`/`SVG`) | `'png'`                           | Sim         |
-| `outputDir`| Diretório de saída onde os diagramas serão salvos | `'${{ github.workspace }}/docs/diagrams/'`              | Sim         |
+| Nome             | Descrição                                         | Obrigatório |
+|------------------|---------------------------------------------------|-------------|
+| `structurizrUrl` | URL do Structurizr Lite para exportação           | Sim         |
+| `format`         | Formato dos diagramas exportados (`PNG`/`SVG`)    | Sim         |
+| `outputDir`      | Diretório de saída onde os diagramas serão salvos | Sim         |
 
 ## Detalhes Técnicos
 
