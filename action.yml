@@ -15,7 +15,7 @@ inputs:
 runs:
   using: 'node16'
   main: 'export-diagrams.js'
-  pre: 'cd $GITHUB_ACTION_PATH && npm install'
+  # pre: npm install
 branding:
   icon: "upload-cloud"
   color: "blue"
