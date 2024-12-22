@@ -80,9 +80,9 @@ jobs:
 
 | Name             | Description                                         | Required |
 |------------------|---------------------------------------------------|-------------|
-| `structurizrUrl` | Structurizr Lite URL for export                   | Yes         |
+| `structurizr_url` | Structurizr Lite URL for export                   | Yes         |
 | `format`         | Exported diagrams format (`PNG`/`SVG`)            | Yes         |
-| `outputDir`      | Output directory where the diagrams will be saved | Yes         |
+| `output_dir`      | Output directory where the diagrams will be saved | Yes         |
 
 ## Technical Details
 
