@@ -59,7 +59,7 @@ jobs:
           cd .github/actions/structurizr-export
           npm install
       - name: Export Structurizr Diagrams
-        uses: vitormartins1/structurizr-export-action@v1
+        uses: vitormartins1/structurizr-lite-pipeline-integration@v1
         with:
           structurizrUrl: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
