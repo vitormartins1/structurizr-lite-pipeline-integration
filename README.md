@@ -51,11 +51,11 @@ jobs:
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
       - name: Export Structurizr Diagrams
-        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.1
+        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.2
         with:
-          structurizrUrl: 'http://localhost:8080/workspace/diagrams'
+          structurizr_url: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
-          outputDir: '${{ github.workspace }}/docs/diagrams/'
+          output_dir: '${{ github.workspace }}/docs/diagrams/'
       - name: List Generated Diagrams
         run: ls -la ${{ github.workspace }}/docs/diagrams
       - name: Upload Diagrams
@@ -80,9 +80,9 @@ jobs:
 
 | Name             | Description                                         | Required |
 |------------------|---------------------------------------------------|-------------|
-| `structurizrUrl` | Structurizr Lite URL for export                   | Yes         |
+| `structurizr_url` | Structurizr Lite URL for export                   | Yes         |
 | `format`         | Exported diagrams format (`PNG`/`SVG`)            | Yes         |
-| `outputDir`      | Output directory where the diagrams will be saved | Yes         |
+| `output_dir`      | Output directory where the diagrams will be saved | Yes         |
 
 ## Technical Details
 
