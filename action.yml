@@ -13,7 +13,7 @@ inputs:
     description: 'Output directory for the diagrams'
     required: true
 runs:
-  using: 'node18'
+  using: 'node16'
   pre: npm install
   main: 'export-diagrams.js'
 branding:
