@@ -4,12 +4,12 @@ workspace {
             snstopic = container "MESSAGE-TOPIC" {
                 description "Tópico SNS usado para distribuir mensagens."
                 technology "SNS Topic"
-                tags "Amazon Web Services - Simple Notification Service Topic" "Topic" "Amazon Web Services - Simple Notification Service SNS Topic"
+                tags "Amazon Web Services - Simple Notification Service Topic" "Topic" 
             }
             filaSQS = container "MESSAGE-QUEUE" {
                 description "Fila que recebe mensagens filtradas do tópico SNS."
                 technology "AWS SQS"
-                tags "Queue" "Amazon Web Services - Simple Queue Service Queue" "Amazon Web Services - Simple Queue Service SQS Queue"
+                tags "Queue" "Amazon Web Services - Simple Queue Service Queue" 
             }
             server = container "SERVER" {
                 description "Servidor que encaminha mensagens"
@@ -25,25 +25,25 @@ workspace {
                 tags "Amazon Web Services - Cloud"
 
                 deploymentNode "Enterprise"{
-                    tags "Amazon Web Services - Server contents" #"Amazon Web Services - WorkMail"
+                    tags "Amazon Web Services - Server contents" 
                     
                     deploymentNode "sa-east-1" {
-                        tags "Amazon Web Services - Region"
+                        tags "Amazon Web Services - AWS Region"
 
                         infrastructureNode "KMS Parameter" {
                             tags "Amazon Web Services - Key Management Service"
                         }
 
                         deploymentNode "Amazon SNS" {
-                            tags "Amazon Web Services - Simple Notification Service SNS"
+                            tags "Amazon Web Services - Simple Notification Service"
                             containerInstance snstopic
                         }
 
                         deploymentNode "Amazon SQS" {
-                            tags "Amazon Web Services - Simple Queue Service SQS"
+                            tags "Amazon Web Services - Simple Queue Service"
                             containerInstance filaSQS
                             infrastructureNode "MESSAGE-QUEUE-DLQ" {
-                                tags "Queue" "Amazon Web Services - Simple Queue Service Queue" "Amazon Web Services - Simple Queue Service SQS Queue"
+                                tags "Queue" "Amazon Web Services - Simple Queue Service Queue" 
                             }
                         }
 
@@ -67,14 +67,12 @@ workspace {
             include snstopic
             include filaSQS
             include server
-            autoLayout lr
+            // autoLayout lr
         }
         deployment * live "deploy-dev"{
             include *
             // autoLayout tb
         }
-
-        theme https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json
 
         !include styles.dsl
     }

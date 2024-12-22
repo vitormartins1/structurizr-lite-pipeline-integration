@@ -5,6 +5,9 @@ styles {
     element "Application" {
         background #ffffff
     }
+    element "Element" {
+        background #ffffff
+    }
     element "Component" {
         background #ffffff
     }
