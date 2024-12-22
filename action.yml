@@ -12,10 +12,14 @@ inputs:
   output_dir:
     description: 'Output directory for the diagrams'
     required: true
-    
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.structurizr_url }}
+    - ${{ inputs.format }}
+    - ${{ inputs.output_dir }}
 
 branding:
   icon: "upload-cloud"

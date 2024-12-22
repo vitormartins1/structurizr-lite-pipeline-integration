@@ -1,16 +1,15 @@
-FROM node:16
+FROM ghcr.io/puppeteer/puppeteer:22.15.0
 
-# Configura o diretório de trabalho no container
 WORKDIR /action
 
-# Copia o conteúdo da Action para o container
 COPY . .
 
-# Instala as dependências
+USER root
+RUN chown -R pptruser:pptruser /action
+USER pptruser
+
 RUN npm install
-
-# Garante que Puppeteer tenha o Chrome instalado
 RUN npx puppeteer install
+RUN npx puppeteer browsers install chrome
 
-# Define o comando padrão para executar o script principal
 CMD ["node", "export-diagrams.js"]
