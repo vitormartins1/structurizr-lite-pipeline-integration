@@ -28,19 +28,19 @@ workspace {
                     tags "Amazon Web Services - Server contents" 
                     
                     deploymentNode "sa-east-1" {
-                        tags "Amazon Web Services - Region"
+                        tags "Amazon Web Services - AWS Region"
 
                         infrastructureNode "KMS Parameter" {
                             tags "Amazon Web Services - Key Management Service"
                         }
 
                         deploymentNode "Amazon SNS" {
-                            tags "Amazon Web Services - Simple Notification Service SNS"
+                            tags "Amazon Web Services - Simple Notification Service"
                             containerInstance snstopic
                         }
 
                         deploymentNode "Amazon SQS" {
-                            tags "Amazon Web Services - Simple Queue Service SQS"
+                            tags "Amazon Web Services - Simple Queue Service"
                             containerInstance filaSQS
                             infrastructureNode "MESSAGE-QUEUE-DLQ" {
                                 tags "Queue" "Amazon Web Services - Simple Queue Service Queue" 
