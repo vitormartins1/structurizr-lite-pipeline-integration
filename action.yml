@@ -15,8 +15,8 @@ inputs:
 runs:
   using: 'node16'
   main: 'export-diagrams.js'
-  pre: |
-    npm install
+  # pre: |
+  #   npm install
 branding:
   icon: "upload-cloud"
   color: "blue"
