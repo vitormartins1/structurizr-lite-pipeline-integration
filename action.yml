@@ -12,10 +12,11 @@ inputs:
   output_dir:
     description: 'Output directory for the diagrams'
     required: true
+    
 runs:
-  using: 'node16'
-  main: 'export-diagrams.js'
-  # pre: npm install
+  using: 'docker'
+  image: 'Dockerfile'
+
 branding:
   icon: "upload-cloud"
   color: "blue"
