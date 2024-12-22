@@ -66,12 +66,12 @@ jobs:
           outputDir: '${{ github.workspace }}/docs/diagrams/'
       - name: Listar Diagramas Gerados
         run: ls -la ${{ github.workspace }}/docs/diagrams
-      - name: Upload Diagramas
+      - name: Upload de Diagramas
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
           path: ${{ github.workspace }}/docs/diagrams/
-      - name: Commitar Diagramas Gerados
+      - name: Comitar Diagramas Gerados
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
