@@ -14,7 +14,16 @@ inputs:
     required: true
 runs:
   using: 'node16'
-  pre: npm install
+  pre: |
+    echo "Listing current directory contents:"
+    ls -la
+    echo "Listing parent directory contents:"
+    ls -la ..
+    echo "Listing home directory contents:"
+    ls -la /home/runner
+    echo "Listing Action-specific folder contents:"
+    ls -la /home/runner/work/_actions
+  main: 'export-diagrams.js'
   main: 'export-diagrams.js'
 branding:
   icon: "upload-cloud"
