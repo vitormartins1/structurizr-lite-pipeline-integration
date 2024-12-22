@@ -32,7 +32,7 @@ jobs:
           - 8080:8080
         options: --network-alias structurizr
     steps:
-      - name: Ajustar permissões do workspace
+      - name: Adjust workspace permissions
         run: |
           sudo chmod -R u+rwx ${{ github.workspace }} || true
           sudo chown -R $USER:$USER ${{ github.workspace }} || true
@@ -41,7 +41,7 @@ jobs:
         with:
           fetch-depth: 1
           clean: true
-      - name: Copia arquivos do workspace para o Structurizr Lite
+      - name: Copy workspace files to Structurizr Lite
         run: |
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker cp ${{ github.workspace }}/docs/workspace.dsl $CONTAINER_ID:/usr/local/structurizr/workspace.dsl
@@ -56,14 +56,14 @@ jobs:
           structurizrUrl: 'http://localhost:8080/workspace/diagrams'
           format: 'png'
           outputDir: '${{ github.workspace }}/docs/diagrams/'
-      - name: Listar Diagramas Gerados
+      - name: List Generated Diagrams
         run: ls -la ${{ github.workspace }}/docs/diagrams
-      - name: Upload de Diagramas
+      - name: Upload Diagrams
         uses: actions/upload-artifact@v4
         with:
           name: structurizr-diagrams
           path: ${{ github.workspace }}/docs/diagrams/
-      - name: Comitar Diagramas Gerados
+      - name: Commit Generated Diagrams
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
