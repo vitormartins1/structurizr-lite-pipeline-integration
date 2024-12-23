@@ -1,34 +1,33 @@
 FROM ghcr.io/puppeteer/puppeteer:22.15.0
 
+# Usa o usuário root temporariamente para ajustar permissões
+USER root
 
-# Define o diretório de trabalho como o workspace do GitHub Actions
-WORKDIR /github/workspace
-
-RUN ls -la /github
-# Cria os diretórios necessários e ajusta permissões
-RUN mkdir -p /github/home/.local /github/workspace/cache && \
-    chown -R pptruser:pptruser /github/home /github/workspace /github/home/.local
-
-RUN ls -la /github/home && ls -la /github/home/.local && ls -la /github/workspace
-
-# Copia os arquivos para o workspace
+# Usa o usuário padrão da imagem Puppeteer
 USER pptruser
-COPY --chown=pptruser:pptruser . /github/workspace
 
-RUN ls -la /github/workspace
+# Debug para variáveis de ambiente
+RUN echo "Variáveis de ambiente no build:" && env
 
-# Instala as dependências no container
+# Instala as dependências
+COPY package*.json /github/workspace/
+WORKDIR /github/workspace
 RUN npm install
-# RUN npx puppeteer install
 
-# Define variáveis de ambiente para Puppeteer
-ENV PUPPETEER_CACHE_DIR=/github/workspace/cache \
-    XDG_CONFIG_HOME=/github/home/.local \
-    HOME=/github/home
+# Copia todos os arquivos do projeto
+COPY . /github/workspace
 
-# RUN chmod +x /github/workspace/export-diagrams.js
+# Confirma a estrutura de arquivos
+RUN echo "Estrutura de arquivos no workspace durante o build:" && ls -la /github/workspace
 
-# Comando padrão para executar o script
-# CMD ["sh", "-c", "ls -la /github/workspace && node /github/workspace/export-diagrams.js"]
-
-CMD ["sh", "-c", "ls -la && node export-diagrams.js"]
+# Adiciona comandos de debug antes do CMD
+ENTRYPOINT ["sh", "-c", " \
+  echo '--- Debug do ambiente de execução ---' && \
+  echo 'Diretório atual:' && pwd && \
+  echo 'Estrutura de arquivos na raiz:' && ls -la / && \
+  echo 'Estrutura de arquivos no workspace:' && ls -la /github/workspace && \
+  echo 'Estrutura de arquivos detalhada no workspace:' && find /github/workspace && \
+  echo 'Usuário atual:' && whoami && id && \
+  echo 'Variáveis de ambiente no runtime:' && env && \
+  echo '--- Fim do debug ---' && \
+  node export-diagrams.js"]
