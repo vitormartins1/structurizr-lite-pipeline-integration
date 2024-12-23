@@ -26,5 +26,9 @@ ENV PUPPETEER_CACHE_DIR=/github/workspace/cache \
     XDG_CONFIG_HOME=/github/home/.local \
     HOME=/github/home
 
+# RUN chmod +x /github/workspace/export-diagrams.js
+
 # Comando padrão para executar o script
-CMD ["node", "/github/workspace/export-diagrams.js"]
+# CMD ["sh", "-c", "ls -la /github/workspace && node /github/workspace/export-diagrams.js"]
+
+CMD ["sh", "-c", "ls -la && node export-diagrams.js"]
