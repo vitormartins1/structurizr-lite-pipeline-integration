@@ -48,4 +48,4 @@ RUN echo "Filesystem structure during build:" && \
 #   echo 'Runtime environment variables:' && env && \
 #   echo '--- End of debug ---' && \
 #   node $GITHUB_WORKSPACE/export-diagrams.js"]
-ENTRYPOINT ["node", "/app/export-diagrams.js"]
+CMD ["node", "/app/export-diagrams.js"]
