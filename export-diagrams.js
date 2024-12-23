@@ -18,11 +18,13 @@ console.log("Output Directory:", outputDir);
 
 if (!url || !format || !outputDir) {
   console.error("Error: Missing required parameters.");
+  console.log("Make sure to provide 'structurizr_url', 'format', and 'output_dir'.");
   process.exit(1);
 }
 
 if (!fs.existsSync(outputDir)) {
   console.error(`Output directory does not exist: ${outputDir}`);
+  console.log("Make sure to provide 'structurizr_url', 'format', and 'output_dir'.");
   process.exit(1);
 }
 
@@ -38,12 +40,14 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
 }
 
 (async () => {
+  console.log(" - Initializing browser");
   const browser = await puppeteer.launch({ 
     executablePath: '/usr/bin/google-chrome-stable',
     ignoreHTTPSErrors: IGNORE_HTTPS_ERRORS, 
     headless: HEADLESS,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
+  console.log(" - Browser initialized");
   const page = await browser.newPage();
 
   // Variáveis para controle de progresso
