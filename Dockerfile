@@ -1,10 +1,10 @@
 FROM ghcr.io/puppeteer/puppeteer:22.15.0
 
-RUN ls -la /github
 
 # Define o diretório de trabalho como o workspace do GitHub Actions
 WORKDIR /github/workspace
 
+RUN ls -la /github
 # Cria os diretórios necessários e ajusta permissões
 RUN mkdir -p /github/home/.local /github/workspace/cache && \
     chown -R pptruser:pptruser /github/home /github/workspace /github/home/.local
