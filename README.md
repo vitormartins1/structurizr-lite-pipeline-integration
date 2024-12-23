@@ -51,7 +51,7 @@ jobs:
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
       - name: Export Structurizr Diagrams
-        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.33
+        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.34
         with:
           structurizr_url: 'http://structurizr:8080/workspace/diagrams'
           format: 'png'
