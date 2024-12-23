@@ -51,11 +51,11 @@ jobs:
           CONTAINER_ID=$(docker ps --filter "name=structurizr" --format "{{.ID}}")
           docker exec $CONTAINER_ID ls -la /usr/local/structurizr/
       - name: Export Structurizr Diagrams
-        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.2
+        uses: vitormartins1/structurizr-lite-puppeteer-integration-action@v1.0.33
         with:
-          structurizr_url: 'http://localhost:8080/workspace/diagrams'
+          structurizr_url: 'http://structurizr:8080/workspace/diagrams'
           format: 'png'
-          output_dir: '${{ github.workspace }}/docs/diagrams/'
+          output_dir: '${{github.workspace}}/docs/diagrams/'
       - name: List Generated Diagrams
         run: ls -la ${{ github.workspace }}/docs/diagrams
       - name: Upload Diagrams
@@ -72,7 +72,7 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           cd ${{ github.workspace }}
           git add docs/diagrams/
-          git commit -m "Atualizando diagramas gerados automaticamente"
+          git commit -m "Updating generated diagrams"
           git push origin ${{ github.ref_name }}
 ```
 
@@ -87,10 +87,25 @@ jobs:
 ## Technical Details
 
 1. The Action uses **Node.js** to export diagrams based on `.dsl` files and Structurizr Lite configurations contained in the `workspace.json` file and the `.structurizr` folder.
-2. The generated diagrams are saved in the directory specified by the `outputDir` input variable.
-3. After generation, the diagrams are automatically:
-   - Made available as artifacts for download.
-   - Committed back to the same repository branch.
+2. The **Structurizr URL** must be provided using the Network Alias of the Structurizr Lite service (`structurizr`) instead of `localhost`. This is because the Action and the Structurizr Lite service run in separate containers, and `localhost` would not resolve correctly between them. For example, set `structurizr_url` as:
+```yml
+structurizr_url: 'http://structurizr:8080/workspace/diagrams'
+```
+3. The generated diagrams are saved in the directory specified by the `outputDir` input variable. Ensure the `outputDir` points to a valid, writable directory within the GitHub Workspace, such as:
+
+```yml
+output_dir: '${{ github.workspace }}/docs/diagrams/'
+```
+
+4. After generation, the diagrams are automatically:
+
+  - Made available as artifacts for download using the actions/upload-artifact action.
+  - Committed back to the same repository branch using the Commit Generated Diagrams step.
+  
+5. Permissions and directory structures are managed as follows:
+
+  - Workspace permissions are adjusted at the start of the workflow to ensure compatibility with both the Structurizr service and the GitHub Actions runner.
+  - All necessary files (workspace.dsl, styles.dsl, workspace.json, and .structurizr folder) are copied into the Structurizr Lite container before exporting diagrams.
 
 ## Configuring to Commit Diagrams
 

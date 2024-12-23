@@ -23,14 +23,12 @@ if (!url || !format || !outputDir) {
 }
 
 if (!fs.existsSync(outputDir)) {
-  console.error(`Output directory does not exist: ${outputDir}`);
-  console.log("Make sure to provide 'structurizr_url', 'format', and 'output_dir'.");
+  console.log(`Output directory does not exist: ${outputDir}`);
   process.exit(1);
 }
 
 if (!url || !format || !outputDir) {
-  console.error("Error: Required parameters were not provided.");
-  console.log("Make sure to provide 'structurizr_url', 'format', and 'output_dir'.");
+  console.log("Error: Required parameters were not provided.");
   process.exit(1);
 }
 
