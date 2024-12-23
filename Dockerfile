@@ -19,7 +19,7 @@ RUN ls -la /github/workspace
 
 # Instala as dependências no container
 RUN npm install
-RUN npx puppeteer install
+# RUN npx puppeteer install
 
 # Define variáveis de ambiente para Puppeteer
 ENV PUPPETEER_CACHE_DIR=/github/workspace/cache \
