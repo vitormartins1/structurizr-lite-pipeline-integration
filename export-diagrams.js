@@ -41,7 +41,9 @@ if (format !== PNG_FORMAT && format !== SVG_FORMAT) {
   const browser = await puppeteer.launch({ 
     executablePath: '/usr/bin/google-chrome-stable',
     ignoreHTTPSErrors: IGNORE_HTTPS_ERRORS, 
-    headless: HEADLESS });
+    headless: HEADLESS,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   const page = await browser.newPage();
 
   // Variáveis para controle de progresso

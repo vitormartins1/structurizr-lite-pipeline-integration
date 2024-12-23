@@ -22,11 +22,6 @@ RUN echo "Filesystem structure during build:" && \
     find / -maxdepth 2 && \
     echo "Workspace structure during build:" && ls -la /github/workspace
 
-RUN chown -R pptruser:pptruser /github/workspace && \
-    chmod -R ugo+rw /github/workspace
-
-USER pptruser    
-
 # Set up the entry point with debugging commands
 ENTRYPOINT ["/bin/sh", "-c", " \
   echo '--- Debug runtime environment ---' && \
